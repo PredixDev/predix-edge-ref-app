@@ -1,0 +1,262 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="/bower_components/px-toggle/px-toggle.html"/>
+<link rel="import" href="/bower_components/px-panel/px-panel.html"/>
+<link rel="import" href="node-red-styles.html"/>
+<link rel="import" href="../edge-app/edge-app-personas-styles.html">
+
+<dom-module id="node-red">
+  <template>
+    <style include="node-red-styles"></style>
+    <style include="edge-app-personas-styles"></style>
+    <div id="overview">
+      <div class="personas">
+        <div class="personas1">
+            <img src="images/edge-persona-icons-edge-app-developer.png" class="persona-img">
+            <div class="persona-name">Daniel</div>
+            <div class="persona-title">Edge App Developer</div>
+        </div>
+        <div class="personas2">
+            <img src="images/edge-persona-icons-edge-analytic-engineer.png" class="persona-img">
+            <div class="persona-name">Anita</div>
+            <div class="persona-title">Edge Analytic Engineer</div>
+        </div>
+      </div>
+      <div>
+        <marked-element id="workshopExperience" >
+          <div slot="markdown-html"></div>
+          <script type="text/markdown" src="src/node-red/workshop-experience.md"></script>
+        </marked-element>
+      </div>
+    </div>
+
+    <div id="design">
+      <div id="toggleRow">
+        <div id="tutorialToggle"><span>Configuration Steps &nbsp;</span> <px-toggle id="toggle" size="medium" ></px-toggle></div>
+        <div id="architecture">
+          <div id="architectureLabel">See Architecture</div>
+          <div><img id="architectureImage" src="images/edge-ref-app-large.png"></div>
+        </div>
+      </div>
+      <div id="nodeTutorial" >
+        <div id="tutorialPanelParent">
+          <px-panel id="tutorialPanel" position="top">
+            <div slot="content">
+              <marked-element id="nodeTutorial1">
+                <div id="tutorialContent" slot="markdown-html"></div>
+                <script type="text/markdown" src="src/node-red/workshop-experience-node-red1.md"></script>
+              </marked-element>
+              <marked-element id="nodeTutorial2" style="display: none">
+                <div id="tutorialContent" slot="markdown-html"></div>
+                <script type="text/markdown" src="src/node-red/workshop-experience-node-red2.md"></script>
+              </marked-element>
+              <marked-element id="nodeTutorial3" style="display: none">
+                <div id="tutorialContent" slot="markdown-html"></div>
+                <script type="text/markdown" src="src/node-red/workshop-experience-node-red3.md"></script>
+              </marked-element>
+              <marked-element id="nodeTutorial4" style="display: none">
+                <div id="tutorialContent" slot="markdown-html"></div>
+                <script type="text/markdown" src="src/node-red/workshop-experience-node-red4.md"></script>
+              </marked-element>
+              <marked-element id="nodeTutorial5" style="display: none">
+                <div id="tutorialContent" slot="markdown-html"></div>
+                <script type="text/markdown" src="src/node-red/workshop-experience-node-red5.md"></script>
+              </marked-element>
+              <marked-element id="nodeTutorial6" style="display: none">
+                <div id="tutorialContent" slot="markdown-html"></div>
+                <script type="text/markdown" src="src/node-red/workshop-experience-node-red6.md"></script>
+              </marked-element>
+            </div>
+          </px-panel>
+        </div>
+        <div id="tutorialNextFrame">
+          <button id="tutorialPrev" class="btn btn--large btn--disabled">Prev</button>
+          <button id="tutorialNext" class="btn btn--large btn--disabled">Next</button>
+        </div>
+      </div>
+      <div id="nodeRed">
+        <style>
+          :host {
+            display: block;
+          }
+          iframe {
+            width: 100%;
+            min-height: 930px;
+          }
+        </style>
+        <!-- We may want to point to a proxy route in the express app.
+          proxy route should add some session id, and proxy to local node-red docker container.
+        -->
+        <iframe id="iFrame" src="" style="display: none;" onLoad="{{nodeRedLoaded}}" ></iframe>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    class NodeRed extends Polymer.Element {
+      static get is() { return 'node-red'; }
+      static get properties() {
+        return {
+          // put properties here
+          steps: Object,
+          stepsData: Object,
+          currentNodeTutorial: Object,
+          currentNodeTutorialIndex: Object,
+          nodeTutorial: {
+            type: Array,
+            value: []
+          },
+          handleStepTap: Function,
+          nodeRedLoaded: Function,
+          handleToggle: Function,
+          handleMouseOver: Function,
+          handleMouseLeave: Function,
+          handleTutorialNext: Function
+        }
+      }
+      constructor() {
+        super();
+        //bind to this so function has access to properties and elements
+        this.nodeRedLoaded = this.nodeRedLoadedFunc.bind(this);
+        this.handleStepTap = this.handleStepTapFunc.bind(this);
+        this.handleToggle = this.handleToggleFunc.bind(this);
+        this.handleTutorialPrev = this.handleTutorialPrevFunc.bind(this);
+        this.handleTutorialNext = this.handleTutorialNextFunc.bind(this);
+        this.handleArchitecture = this.handleArchitectureFunc.bind(this);
+        this.handleMouseLeave = this.handleMouseLeaveFunc.bind(this);
+      }
+      connectedCallback() {
+        //a place to put some console.logs - called near startup
+        super.connectedCallback();
+        console.log("configuration connectedCallback");
+        this.steps.addEventListener('px-steps-tapped-nav', this.handleStepTap);
+        this.steps.items=this.stepsData.slice(4,8);
+        this.steps.jumpToStep(1);
+        this.$.workshopExperience.scrollIntoView()
+        this.$.toggle.addEventListener('checked-changed', this.handleToggle);
+        this.$.tutorialPrev.addEventListener('click', this.handleTutorialPrev);
+        this.$.tutorialNext.addEventListener('click', this.handleTutorialNext);
+        this.$.architectureImage.addEventListener('click', this.handleArchitecture);
+        this.nodeTutorial=[this.$.nodeTutorial1,this.$.nodeTutorial2,this.$.nodeTutorial3,this.$.nodeTutorial4,this.$.nodeTutorial5,this.$.nodeTutorial6];
+        this.currentNodeTutorial = this.$.nodeTutorial1;
+        this.currentNodeTutorialIndex = 0;
+        let _self = this;
+        setTimeout(function(){
+          _self.$.iFrame.src = "http://" + window.location.hostname + ":1880";
+        }, 600);
+      }
+      disconnectedCallback() {
+        this.steps.removeEventListener('px-steps-tapped-nav', this.handleStepTap);
+        this.$.toggle.removeEventListener('checked-changed', this.handleToggle) ;
+        this.$.tutorialPrev.removeEventListener('click', this.handleTutorialPrev);
+        this.$.tutorialNext.removeEventListener('click', this.handleTutorialNext);
+        this.$.architectureImage.removeEventListener('mouseover', this.handleMouseOver);
+        this.$.architectureImage.removeEventListener('mouseleave', this.handleMouseLeave);
+      }
+      handleToggleFunc() {
+        console.log("handleToggle");
+        let tutorialPanel = this.$.tutorialPanel;
+        if ( tutorialPanel.opened ) {
+          this.expandTutorial("0%", "100%");
+          this.hide(this.$.nodeTutorial)
+          this.hide(this.$.tutorialPrev)
+          this.hide(this.$.tutorialNext)
+          this.hide(this.$.architecture)
+        }
+        else {
+          this.$.toggleRow.style.height = "5rem;"
+          this.expandTutorial("40%", "58.5%");
+          this.show(this.$.nodeTutorial)
+          this.show(this.$.tutorialPrev)
+          this.show(this.$.tutorialNext)
+          this.show(this.$.architecture)
+          window.scrollBy(0, 350)
+        }
+        tutorialPanel.opened = !tutorialPanel.opened;
+      }
+      expandTutorial(nodeTutorial,nodeRed) {
+        this.$.nodeTutorial.style.width=nodeTutorial;
+        this.$.nodeRed.style.width=nodeRed;
+      }
+      handleTutorialNextFunc() {
+        console.log(this.currentNodeTutorialIndex,this.nodeTutorial.length)
+        this.hide(this.nodeTutorial[this.currentNodeTutorialIndex]);
+        this.show(this.nodeTutorial[this.currentNodeTutorialIndex+1]);
+        this.currentNodeTutorialIndex = this.currentNodeTutorialIndex+1;
+        if ( this.currentNodeTutorialIndex + 1 == this.nodeTutorial.length) {
+          this.$.tutorialNext.disabled = true;
+        }
+        if ( this.currentNodeTutorialIndex > 0 ) {
+          this.$.tutorialPrev.disabled = false;
+        }
+      }
+      handleTutorialPrevFunc() {
+        this.hide(this.nodeTutorial[this.currentNodeTutorialIndex]);
+        this.show(this.nodeTutorial[this.currentNodeTutorialIndex-1]);
+        this.currentNodeTutorialIndex = this.currentNodeTutorialIndex-1;
+        if ( this.currentNodeTutorialIndex == 0 ) {
+          this.$.tutorialPrev.disabled = true;
+        }
+        if ( this.currentNodeTutorialIndex < this.nodeTutorial.length ) {
+          this.$.tutorialNext.disabled = false;
+        }
+      }
+      handleArchitectureFunc() {
+        this.$.architectureImage.style.width = "80%";
+        let _self = this;
+        setTimeout(function(){
+          _self.$.architectureImage.style.transitionDuration = ".5s";
+          _self.$.architectureImage.addEventListener('mouseleave', _self.handleMouseLeave);
+        }, 500);
+      }
+      handleMouseLeaveFunc() {
+        this.$.architectureImage.removeEventListener('mouseleave', this.handleMouseLeave);
+        this.$.architectureImage.style.width = "10%";
+        let _self = this;
+        setTimeout(function(){
+          _self.$.architectureImage.style.transitionDuration = "0s";
+        }, 300);
+      }
+      handleStepTapFunc(event) {
+        console.log("node-red:handleStepTap",event.detail);
+        if ( event.detail.currentStep == 0) {
+          window.history.pushState({}, null, '/operations');
+          window.dispatchEvent(new CustomEvent('location-changed'));
+        }
+        else if ( event.detail.currentStep == 2 ) {
+          window.history.pushState({}, null, '/device');
+          window.dispatchEvent(new CustomEvent('location-changed'));
+        }
+        else if ( event.detail.currentStep == 3 ) {
+          this.steps.setStep = 2;
+          window.history.pushState({}, null, '/device');
+          window.dispatchEvent(new CustomEvent('location-changed'));
+        }
+      }
+      nodeRedLoadedFunc(event) {
+        //this is a trick to show the Overview, because node-red is changing the anchor
+        console.log("node-red loaded");
+        let _self = this;
+        setTimeout(function(){
+          window.scrollTo(0,0);
+          _self.$.iFrame.style.display = "block";
+        }, 600);
+      }
+      ready() {
+        super.ready();
+        // console.log("node-red ready")
+      }
+      attached() {
+        super.attached();
+        // console.log("node-red attached");
+      }
+      hide(item) {
+        item.style.display = "none";
+      }
+      show(item) {
+        item.style.display = "block";
+      }
+    }
+
+    window.customElements.define(NodeRed.is, NodeRed);
+  </script>
+</dom-module>

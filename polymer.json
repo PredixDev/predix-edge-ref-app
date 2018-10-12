@@ -1,0 +1,26 @@
+{
+  "entrypoint": "src/index.html",
+  "shell": "src/edge-app/edge-app.html",
+  "fragments": [
+    "src/home-view/home-view.html",
+    "src/edge-live-chart/edge-live-chart.html",
+    "src/device-view/device-view.html",
+    "src/node-red/node-red.html"
+  ],
+  "sources": [
+    "src/**/*"
+  ],
+  "builds": [
+    {
+      "name": "es6-bundled",
+      "js": {"minify": true},
+      "css": {"minify": true},
+      "bundle": true
+    }
+  ],
+  "lint": {
+    "rules": [
+      "polymer-2"
+    ]
+  }
+}

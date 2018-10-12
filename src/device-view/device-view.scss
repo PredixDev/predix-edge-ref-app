@@ -1,0 +1,129 @@
+// Settings
+
+// Tools
+
+// Generic
+
+// Base
+
+// Meta
+
+// Objects
+$inuit-enable-btn--medium : true;
+$inuit-enable-btn--disabled : true;
+@import "px-buttons-design/_objects.buttons.scss";
+
+// Component
+// Your css goes in here
+
+#overview {
+  border-style: none;
+  height: 15rem;
+  //margin-top: 2rem;
+}
+
+#workshopExperience {
+  border-style: none;
+  margin-left: 15rem;
+}
+
+px-alert-message {
+  display: none;
+  --px-alert-message-background-color: rgb(89,106,117);
+  --px-alert-message-text-color: rgb(182,195,204);
+  --px-alert-message-color--information: rgb(23,129,155);
+}
+
+
+
+#deviceForm {
+  border-style: none;
+  width: 100%;
+  padding-left: 15rem;
+  float: left;
+}
+
+#deviceFormRule {
+  background-color: rgb(89,106,117);
+  height: 1px;
+}
+
+#eventsFormHeader {
+  border-style: none;
+  display: table;
+  font-size: 1.4rem;
+  height: 3rem;
+  padding-top: 20px;
+}
+
+#serviceEventsHeader {
+  border-style: none;
+  float: left;
+  width: 17rem;
+}
+
+#costHeader {
+  float: left;
+}
+
+#eventForm {
+  border-style: none;
+  float: left;
+  display: table;
+}
+
+#eventFormSelect {
+  width: 17rem;
+  height: 3rem;
+  padding-top: .4rem;
+}
+
+#eventOutOfService {
+  border-style: none;
+  font-size: 1rem;
+  height: 3rem;
+}
+
+#eventFormSubmit {
+  font-size: 1rem;
+  float: center;
+}
+
+#eventFormCost {
+  border-style: none;
+  font-size: 2rem;
+  color: green;
+
+}
+
+#apmOverview {
+  border-style: none;
+  height: 15rem;
+  margin-top: 2rem;
+}
+#workshopExperienceAPM {
+  margin-left: 15rem;
+}
+
+[slot="markdown-html"]
+a:link {
+    color: green;
+}
+
+/* visited link */
+a:visited {
+    color: green;
+}
+
+/* mouse over link */
+a:hover {
+    color: red;
+}
+
+/* selected link */
+a:active {
+    color: yellow;
+}
+
+
+// Trumps

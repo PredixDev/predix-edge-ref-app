@@ -1,0 +1,294 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="/bower_components/app-route/app-location.html"/>
+<link rel="import" href="/bower_components/px-app-helpers/px-app-route/px-app-route.html"/>
+<link rel="import" href="/bower_components/px-app-nav/px-app-nav.html"/>
+<link rel="import" href="/src/home-view/home-view.html"/>
+<link rel="import" href="/src/edge-live-chart/edge-live-chart.html"/>
+<link rel="import" href="/src/device-view/device-view.html"/>
+<link rel="import" href="/src/node-red/node-red.html"/>
+<link rel="import" href="edge-app-styles.html">
+<link rel="import" href="/bower_components/px-branding-bar/px-branding-bar.html"/>
+
+<dom-module id="edge-app">
+    <template>
+        <style include="edge-app-styles"></style>
+        <style>
+          :host {
+            display: block;
+          }
+        </style>
+        <div class="app-container">
+          <div>
+            <div>
+              <px-branding-bar application-title="Edge Reference App" ></px-branding-bar>
+              <app-location id="edgeAppLocation" route="{{route}}"></app-location>
+            </div>
+            <div id="steps">
+              <div id="tutorial-navigation">TUTORIAL NAVIGATION</div>
+              <div class="stepper-right">
+                <button id="stepperNext" class="btn btn--bare btn--icon">Next<px-icon icon="px-nav:next"></px-icon></button>
+              </div>
+              <div class="stepper-left">
+                <button id="stepperPrev" class="btn btn--bare btn--icon"><px-icon icon="px-nav:back"></px-icon> Prev</button>
+              </div>
+              <div class="stepper-middle">
+                <px-steps id="stepper" completed='[]'>
+                </px-steps>
+              </div>
+            </div>
+          </div>
+          <div>
+            <px-app-route
+              id="edgeAppRoute"
+              route="{{route}}"
+              update-nav-route
+              nav-route="{{navRoute}}">
+            </px-app-route>
+            <px-app-nav
+                id="edgeAppNav"
+                items="{{navItems}}"
+                selected-route="{{navRoute}}">
+            </px-app-nav>
+            <template is="dom-if" if="{{isRoute('home', route)}}" restamp>
+              <home-view id="homeView" class="dashboard"
+                steps={{steps}}
+                steps-prev={{stepsPrev}}
+                steps-next={{stepsNext}}
+                steps-data={{stepsData}}>
+              </home-view>
+            </template>
+            <template is="dom-if" if="{{isRoute('operations', route)}}" restamp>
+              <edge-live-chart class="dashboard"
+                steps={{steps}}
+                steps-prev={{stepsPrev}}
+                steps-next={{stepsNext}}
+                steps-data={{stepsData}}>
+            </edge-live-chart>
+            </template>
+            <template is="dom-if" if="{{isRoute('configuration', route)}}" restamp>
+              <node-red  class="dashboard"
+                steps={{steps}}
+                steps-prev={{stepsPrev}}
+                steps-next={{stepsNext}}
+                steps-data={{stepsData}}>
+              </node-red>
+            </template>
+            <template is="dom-if" if="{{isRoute('device', route)}}" restamp>
+              <device-view class="dashboard"
+                steps={{steps}}
+                steps-prev={{stepsPrev}}
+                steps-next={{stepsNext}}
+                steps-data={{stepsData}}>
+              </device-view>
+            </template>
+          </div>
+        </div>
+        <footer>
+          <hr>
+          <p><span class="copyright">©2018 GENERAL ELECTRIC</span><span class="footer-links">
+            <a href="https://github.com/PredixDev/edge-ref-app/blob/master/LICENSE.md" target="_blank">LICENSE&nbsp;&nbsp;</a>
+            <a href="https://github.com/PredixDev/edge-ref-app" target="_blank">GITHUB&nbsp;&nbsp;</a>
+            <a href="https://forum.predix.io/" target="_blank">FORUM&nbsp;&nbsp;&nbsp;</a>
+          </span></h6>
+        </footer>
+    </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class EdgeApp extends Polymer.Element {
+      static get is() { return 'edge-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'edge-app'
+          },
+          stepsData: {
+            type: Array,
+            value: [{"id":"1","label":"1. Predix Edge to APM"},{"id":"2","label":"2. Build Edge Apps"},{"id":"3","label":"3. Gain Insights with APM"},{"id":"4","label":"4. Tutorial Experience"},{"id":"5","label":"5. View Asset Info"},{"id":"6","label":"6. Design the Flow"},{"id":"7","label":"7. Enter Event"},{"id":"8","label":"8. View in Cloud"}]
+          },
+          steps: Object,
+          stepsPrev: Object,
+          stepsNext: Object,
+          navItems: {
+            type: Array,
+            value: () => {
+              return [
+                {
+                  "id" : "home",
+                  "label" : "Home",
+                  "icon": "px-fea:home"
+                },
+                {
+                  "id" : "operations",
+                  "label" : "Operations",
+                  "icon": "px-fea:analysis"
+                },
+                {
+                  "id" : "configuration",
+                  "label" : "Configuration",
+                  "icon": "px-fea:administration"
+                },
+                {
+                  "id": "device",
+                  "label": "Device",
+                  "icon": "px-fea:dev-ops"
+                }
+              ];
+            }
+          }
+        }
+      }
+
+      isRoute(str, route) {
+        // console.log('route.path:', route.path);
+        if (str === 'home' && route.path == '/') {
+          return true;
+        }
+        return "/" + str === route.path;
+      }
+
+      connectedCallback() {
+        //a place to put some console.logs - called near startup
+        super.connectedCallback();
+        console.log("edge-app connectedCallback");
+        if (!this.$.edgeAppRoute.navRoute) {
+          // set default route
+          this.$.edgeAppRoute.navRoute = ['home'];
+        }
+
+        this.steps = this.$.stepper;
+        this.stepsPrev = this.$.stepperPrev;
+        this.stepsNext = this.$.stepperNext;
+        this.setPrevNextVisibility({ "detail": { "id": this.getInitialStep() + 1}});
+
+        this.$.edgeAppNav.addEventListener('selected-route-changed', function(event) {
+          console.log("edge-app:edgeAppNavClick", event.detail.value);
+          switch(event.detail.value[0]) {
+            case "home":
+              this.setPrevNextVisibility({ "detail": { "id": 1}});
+              break;
+            case "operations":
+              this.setPrevNextVisibility({ "detail": { "id": 4}});
+              break;
+            case "configuration":
+              this.setPrevNextVisibility({ "detail": { "id": 5}});
+              break;
+            case "device":
+              this.setPrevNextVisibility({ "detail": { "id": 6}});
+              break;
+          }
+        }.bind(this));
+
+        this.stepsNext.addEventListener('click', function(event) {
+          console.log("edge-app:stepsNext");
+          let offset = this.getStepOffset();
+          console.log("currentStep (zero based)", this.steps.currentStep, "fire event: ", this.steps.currentStep + 2 + offset);
+          this.steps.fire('px-steps-tapped', { "id": this.steps.currentStep + 2 + offset });
+        }.bind(this));
+
+        this.stepsPrev.addEventListener('click', function(event) {
+          console.log("edge-app:stepsPrev");
+          console.log("currentStep (zero based)", this.steps.currentStep, this.$.edgeAppRoute.navRoute[0]);
+          let offset = this.getStepOffset();
+          this.steps.fire('px-steps-tapped', { "id": this.steps.currentStep + offset });
+        }.bind(this));
+
+        this.addEventListener('px-steps-tapped', function(event) {
+          console.log("edge-app tapped:");
+          console.log("ea:current step (zero based)", this.steps.currentStep, "goto (non zero based)", event.detail.id);
+          let offset = this.getStepOffset();
+          console.log("offset", offset);
+          let prevStep = this.steps.currentStep;
+          let gotoStep = event.detail.id - offset -1;
+          console.log("gotoStep", gotoStep);
+          console.log(gotoStep - this.steps.currentStep);
+          if ( gotoStep - this.steps.currentStep == 0 )
+            console.log("no action");
+          else {
+            if ( gotoStep - this.steps.currentStep < 0 ) {
+              this.steps.currentStep = gotoStep;
+              this.steps.jumpToStep(gotoStep);
+            }
+            else if ( gotoStep - this.steps.currentStep == 1 )
+              this.steps.complete();
+            else if ( gotoStep - this.steps.currentStep > 1 ) {
+              this.steps.complete();
+              this.steps.currentStep = gotoStep;
+              this.steps.jumpToStep(gotoStep);
+            }
+            else console.log("unexpected operation");
+
+            this.setPrevNextVisibility(event);
+            console.log("current step now", this.steps.currentStep);
+            this.steps.fire('px-steps-tapped-nav', { "prevStep": prevStep, "currentStep": this.steps.currentStep });
+          }
+
+        }.bind(this));
+      }
+
+      getStepOffset() {
+        let offset = null;
+        if ( this.$.edgeAppRoute.navRoute[0] == 'home')
+          offset = 0;
+        else if ( this.$.edgeAppRoute.navRoute[0] == 'operations')
+          offset = 3;
+        else if ( this.$.edgeAppRoute.navRoute[0] == 'configuration')
+          offset = 4;
+        else if ( this.$.edgeAppRoute.navRoute[0] == 'device')
+          offset = 5;
+        return offset;
+      }
+
+      getInitialStep() {
+        let step = null;
+        if ( this.$.edgeAppRoute.navRoute[0] == 'home')
+          step = 0;
+        else if ( this.$.edgeAppRoute.navRoute[0] == 'operations')
+          step = 5;
+        else if ( this.$.edgeAppRoute.navRoute[0] == 'configuration')
+          step = 6;
+        else if ( this.$.edgeAppRoute.navRoute[0] == 'device')
+          step = 7;
+        return step;
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+      }
+
+      ready() {
+        super.ready();
+      }
+
+      setPrevNextVisibility(event) {
+        console.log("setPrevNextVisibility:",event.detail);
+        if ( event.detail.id == 1 ) {
+          this.hide(this.stepsPrev);
+          this.show(this.stepsNext);
+        }
+        else if ( event.detail.id == 8 ) {
+            this.show(this.stepsPrev);
+            this.hide(this.stepsNext);
+        }
+        else {
+          this.show(this.stepsPrev);
+          this.show(this.stepsNext);
+        }
+      }
+
+      hide(item) {
+        item.style.display = "none";
+      }
+
+      show(item) {
+        item.style.display = "block";
+      }
+    }
+
+    window.customElements.define(EdgeApp.is, EdgeApp);
+  </script>
+</dom-module>

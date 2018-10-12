@@ -1,0 +1,7 @@
+{
+  "name": "edge-ref-app",
+  "short_name": "edge-ref-app",
+  "description": "Predix Edge Reference App with node-red",
+  "start_url": "/",
+  "display": "standalone"
+}

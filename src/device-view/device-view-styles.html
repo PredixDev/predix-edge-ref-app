@@ -1,0 +1,222 @@
+<dom-module id="device-view-styles">
+<template>
+<style>
+/*------------------------------------*\
+    #PX-COLORS-DESIGN
+\*------------------------------------*/
+/**
+ * Neutral Palette (gray20 is darkest, gray1 is lightest)
+ */
+/**
+    * Define grey = gray to avoid dev typos
+    */
+/**
+ * Actionable Palette
+ */
+/**
+ * Selection Palette
+ */
+/**
+ * Dark Actionable Palette
+ */
+/**
+ * Alerts and Status
+ */
+/**
+ * Data Visualization
+ */
+/**
+     * Orange
+     */
+/**
+     * Yellow
+     */
+/**
+     * Yellow Green
+     */
+/**
+     * Green
+     */
+/**
+     * Teal
+     */
+/**
+     * Aqua
+     */
+/**
+     * Cyan
+     */
+/**
+     * Blue
+     */
+/**
+     * Violet
+     */
+/**
+     * Purple
+     */
+/**
+     * Pink
+     */
+/**
+     * Red
+     */
+/**
+     * Brown
+     */
+/**
+     * Gray
+     */
+/**
+     * Define grey = gray to avoid dev typos
+     */
+/**
+     * Salmon
+     */
+.btn {
+  display: inline-block;
+  overflow: visible;
+  height: var(--px-btn-height, 2em);
+  min-width: var(--px-btn-min-width, 4.66667em);
+  margin: 0;
+  border: 1px solid var(--px-btn-border-color, transparent);
+  border-radius: 0 !important;
+  padding: 0 calc(var(--px-btn-height, 2em) / 2);
+  box-shadow: var(--px-btn-shadow--light, none);
+  font: inherit;
+  line-height: calc(var(--px-btn-height, 2em) - 2px);
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  background-color: var(--px-btn-background, #d8e0e5);
+  transition: background .4s, border-color .4s, color .4s; }
+  .btn, .btn:link, .btn:visited, .btn:hover, .btn:active {
+    color: var(--px-btn-color, #2c404c); }
+  .btn:hover, .btn:focus {
+    border-color: var(--px-btn-border-color--hover, transparent);
+    box-shadow: var(--px-btn-shadow, none);
+    background-color: var(--px-btn-background--hover, #a3b5bf); }
+  .btn:active {
+    border-color: var(--px-btn-border-color--pressed, transparent);
+    box-shadow: none;
+    background-color: var(--px-btn-background--pressed, #889aa5); }
+  .btn:active {
+    outline: none; }
+
+@-moz-document url-prefix() {
+  .btn:not(button) {
+    line-height: 1.8em; } }
+
+button.btn {
+  -webkit-appearance: button; }
+
+.btn + .btn {
+  margin-left: 0.66667rem; }
+
+.btn--disabled, .btn--disabled:link, .btn--disabled:visited, .btn--disabled:hover, .btn--disabled:active, .btn--disabled:focus,
+.btn[disabled],
+.btn[disabled]:link,
+.btn[disabled]:visited,
+.btn[disabled]:hover,
+.btn[disabled]:active,
+.btn[disabled]:focus {
+  color: var(--px-btn-disabled-color, rgba(0, 0, 0, 0.2));
+  border: 1px solid;
+  border-color: var(--px-btn-disabled-border-color, rgba(0, 0, 0, 0.2));
+  box-shadow: none;
+  background-color: var(--px-btn-disabled-background, transparent);
+  pointer-events: none; }
+
+#overview {
+  border-style: none;
+  height: 15rem; }
+
+#workshopExperience {
+  border-style: none;
+  margin-left: 15rem; }
+
+px-alert-message {
+  display: none;
+  --px-alert-message-background-color: rgb(89,106,117);
+  --px-alert-message-text-color: rgb(182,195,204);
+  --px-alert-message-color--information: rgb(23,129,155); }
+
+#deviceForm {
+  border-style: none;
+  width: 100%;
+  padding-left: 15rem;
+  float: left; }
+
+#deviceFormRule {
+  background-color: #596a75;
+  height: 1px; }
+
+#eventsFormHeader {
+  border-style: none;
+  display: table;
+  font-size: 1.4rem;
+  height: 3rem;
+  padding-top: 20px; }
+
+#serviceEventsHeader {
+  border-style: none;
+  float: left;
+  width: 17rem; }
+
+#costHeader {
+  float: left; }
+
+#eventForm {
+  border-style: none;
+  float: left;
+  display: table; }
+
+#eventFormSelect {
+  width: 17rem;
+  height: 3rem;
+  padding-top: .4rem; }
+
+#eventOutOfService {
+  border-style: none;
+  font-size: 1rem;
+  height: 3rem; }
+
+#eventFormSubmit {
+  font-size: 1rem;
+  float: center; }
+
+#eventFormCost {
+  border-style: none;
+  font-size: 2rem;
+  color: green; }
+
+#apmOverview {
+  border-style: none;
+  height: 15rem;
+  margin-top: 2rem; }
+
+#workshopExperienceAPM {
+  margin-left: 15rem; }
+
+[slot="markdown-html"]
+a:link {
+  color: green; }
+
+/* visited link */
+a:visited {
+  color: green; }
+
+/* mouse over link */
+a:hover {
+  color: red; }
+
+/* selected link */
+a:active {
+  color: yellow; }
+
+</style>
+</template>
+</dom-module>

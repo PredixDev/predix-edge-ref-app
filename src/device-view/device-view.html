@@ -1,0 +1,233 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="device-view-styles.html">
+<link rel="import" href="/bower_components/px-dropdown/px-dropdown.html"/>
+<link rel="import" href="/bower_components/px-alert-message/px-alert-message.html"/>
+<link rel="import" href="../edge-app/edge-app-personas-styles.html">
+
+<dom-module id="device-view">
+  <template>
+    <style include="device-view-styles"></style>
+    <style include="edge-app-personas-styles"></style>
+
+    <div id="overview">
+      <div class="personas">
+        <div class="personas1">
+            <img src="images/edge-persona-icons-field-service-engineer.png" class="persona-img">
+            <div class="persona-name">Brian</div>
+            <div class="persona-title">Field Service Engineer</div>
+        </div>
+        <div class="personas2">
+            <img src="images/edge-persona-icons-maintenance-technician.png" class="persona-img">
+            <div class="persona-name">Joseph</div>
+            <div class="persona-title">Maintenance Technician</div>
+        </div>
+      </div>
+      <div>
+        <marked-element id="workshopExperience" >
+          <div slot="markdown-html"></div>
+          <script type="text/markdown" src="src/device-view/workshop-experience.md"></script>
+        </marked-element>
+      </div>
+    </div>
+
+    <div id="deviceForm">
+      <px-alert-message id="alert"
+        type="information"
+        action="dismiss"
+        message-title="Success"
+        message="Successfully sent event to Predix Time Series."
+        disableAutoShow="true"
+        hide-severity>
+      </px-alert-message>
+
+      <hr id="mainenanceFormRule">
+      <div>
+        <div id="eventsFormHeader">
+          <div id="serviceEventsHeader" >Service Events</div>
+          <div id="costHeader">Cost</div>
+        </div>
+        <iron-ajax id="ironEvent"
+          method="post"
+          content-type="application/json"
+          url="/api/device-event"
+          handle-as="json"
+          debounce-duration="300">
+        </iron-ajax>
+        <form id="eventForm">
+          <div>
+            <px-dropdown id="eventFormSelect" items={{eventSelections}} display-value="Select An Event"></px-dropdown>
+            <div id="eventOutOfService"><input id="eventOutOfServiceCheckbox" type="checkbox" name="out-of-service" unchecked>Equipment Out of Service</input></div>
+            <button id="eventFormSubmit" class="btn btn--large btn--disabled">Submit</button>
+          </div>
+        </form>
+        <span id="eventFormCost">{{selectedCost}}</span>
+      </div>
+    </div>
+
+    <div id="apmOverview">
+      <div class="personas">
+        <div class="personas1">
+            <img src="images/edge-persona-icons-reliability-engineer.png" class="persona-img">
+            <div class="persona-name">Jerry</div>
+            <div class="persona-title">Reliability Engineer</div>
+        </div>
+        <div class="personas2">
+            <img src="images/edge-persona-icons-analyst.png" class="persona-img">
+            <div class="persona-name">Ajay</div>
+            <div class="persona-title">Analyst</div>
+        </div>
+        <div class="personas2">
+            <img src="images/edge-persona-icons-supervisor.png" class="persona-img">
+            <div class="persona-name">Lorraine</div>
+            <div class="persona-title">Operations Supervisor</div>
+        </div>
+      </div>
+      <div>
+        <div id="workshopExperienceAPM"><marked-element>
+            <div slot="markdown-html"></div>
+            <script type="text/markdown" src="src/device-view/workshop-experience-apm.md"></script>
+          </marked-element>
+        </div>
+      </div>
+    </div>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  </template>
+
+  <script>
+    class DeviceView extends Polymer.Element {
+      static get is() { return 'device-view'; }
+      static get properties() {
+        return {
+          steps: Object,
+          stepsData: Object,
+          handleStepTap: Function,
+          events: Object,
+          selectedEvent: String,
+          eventSelections: Object
+        }
+      }
+
+      constructor() {
+        super();
+        //bind to this so function has access to properties and elements
+        this.handleStepTap = this.handleStepTapFunc.bind(this);
+
+        this.events = [
+          {"id":"12310", "eventType": "Oil Service", "cost": 1000},
+          {"id":"12311", "eventType": "Oil Inspection", "cost": 150},
+          {"id":"12312", "eventType": "Crankcase Service", "cost": 1000},
+          {"id":"12313", "eventType": "Crankcase Inspection", "cost": 150},
+          {"id":"12314", "eventType": "Crankcase Inspection-Oil Leak", "cost": 100000},
+          {"id":"12315", "eventType": "Air Filter Service", "cost": 1000},
+          {"id":"12316", "eventType": "Air Filter Inspection", "cost": 150},
+        ];
+        let _self = this;
+        this.eventSelections = [];
+        this.events.forEach(function(item, index, array) {
+          _self.eventSelections.push({ "key": item.id, "val": item.eventType});
+        });
+        console.log(this.eventSelections);
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        console.log("device connectedCallback");
+
+        this.hide(this.$.apmOverview)
+        this.steps.addEventListener('px-steps-tapped-nav', this.handleStepTap);
+        this.steps.items=this.stepsData.slice(5,8);
+        if ( this.steps.setStep != null ) {
+          this.steps.jumpToStep(this.steps.setStep);
+          this.steps.fire('px-steps-tapped-nav', { "prevStep": this.steps.setStep, "currentStep": this.steps.setStep });
+          this.steps.setStep = null;
+        }
+        else
+          this.steps.jumpToStep(1);
+        console.dir(this.steps.test);
+
+        this.$.eventFormSelect.addEventListener('px-dropdown-selection-changed',function (event) {
+            console.log("selection-changed", event);
+            if ( event.detail.selected ) {
+              this.$.eventFormSubmit.disabled = false;
+              this.$.eventFormSubmit.classList.remove("btn--disabled");
+              //this.$.eventFormSubmit.classList.add("btn--enabled");
+              this.events.forEach(function(item, index, array) {
+                if ( item.id == event.detail.key ) {
+                  this.selectedCost = "$" + item.cost.toLocaleString();
+                  this.event = item;
+                }
+              }.bind(this));
+            }
+        }.bind(this));
+
+        this.$.eventFormSubmit.addEventListener('click',function (event) {
+            event.preventDefault();
+            let dropdown = this.$.eventFormSelect;
+            let currentItem = null;
+            dropdown.items.forEach(function(item, index, array) {
+              if ( item.key == dropdown.selected )
+                currentItem = item;
+            });
+            console.log(currentItem);
+            if ( currentItem != null ) {
+              let body = {'eventId': currentItem.key};
+              body.eventType = currentItem.val;
+              body.outOfService = this.$.eventOutOfServiceCheckbox.checked;
+              body.cost = this.event.cost;
+              console.log(body);
+              this.$.ironEvent.body = body;
+              this.$.ironEvent.generateRequest();
+              this.$.alert.setAutoDismiss(3500);
+              this.show(this.$.alert);
+            }
+            console.log(this.$.eventFormSubmit.classList);
+            this.$.eventFormSubmit.disabled = true;
+        }.bind(this));
+
+        this.$.ironEvent.addEventListener('iron-ajax-response', function(event) {
+          // console.log("response");
+          // console.log(event);
+          this.$.eventFormSelect.selected = null;
+          this.selectedCost = null;
+        }.bind(this));
+
+        this.$.eventForm.addEventListener('iron-form-submit', function(event) {
+          this.$.eventForm.querySelector('.output').innerHTML = JSON.stringify(event.detail);
+        }.bind(this));
+      }
+      disconnectedCallback() {
+        this.steps.removeEventListener('px-steps-tapped-nav', this.handleStepTap);
+      }
+      handleStepTapFunc(event) {
+        console.log("device:handleStepTap", event.detail);
+        if ( event.detail.currentStep == 0 ) {
+          window.history.pushState({}, null, '/configuration');
+          window.dispatchEvent(new CustomEvent('location-changed'));
+        }
+        else if ( event.detail.currentStep == 1 ) {
+          this.hide(this.$.apmOverview);
+          this.show(this.$.overview);
+          this.show(this.$.deviceForm);
+        }
+        else if ( event.detail.currentStep == 2 ) {
+          this.hide(this.$.overview);
+          this.hide(this.$.deviceForm);
+          this.show(this.$.apmOverview);
+          this.steps.complete();
+        }
+      }
+      hide(item) {
+        item.style.display = "none";
+      }
+      show(item) {
+        item.style.display = "block";
+      }
+    }
+
+    window.customElements.define(DeviceView.is, DeviceView);
+  </script>
+</dom-module>

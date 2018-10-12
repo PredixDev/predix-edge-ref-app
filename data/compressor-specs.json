@@ -1,0 +1,12 @@
+{
+  "specs": [
+    {"label": "Frame", "value": "WG"},
+    {"label": "Throws", "value": "2-4-6"},
+    {"label": "Stroke", "value": "6", "uom": "inches"},
+    {"label": "Max. Speed", "value": "1,200", "uom": "RPM"},
+    {"label": "Power/Throw", "value": "1,500", "uom": "HP/Throw"},
+    {"label": "Rod Load", "value": "70,000", "uom": "lbf"},
+    {"label": "Max. Pressure", "value": "6,500", "uom": "psig"}
+  ],
+  "brochureUrl": "https://www.geoilandgas.com/sites/geog/files/recip_overview_brochure_hsr_only.pdf"
+}

@@ -1,0 +1,55 @@
+{
+    "blocks": {
+      "opcua": {
+        "type": "opcuasubflat",
+        "config": {
+            "transport_addr": "opc-tcp://3.39.89.86:49310",
+            "log_level": "debug",
+            "data_map": [
+                {
+                  "alias": "Compressor-2018.CompressionRatio",
+                  "id": "ns=2;s=Simulator.Device1.FLOAT1"
+                },
+                {
+                  "alias": "Compressor-2018.DischargePressure",
+                  "id": "ns=2;s=Simulator.Device1.FLOAT2"
+                },
+                {
+                  "alias": "Compressor-2018.SuctionPressure",
+                  "id": "ns=2;s=Simulator.Device1.FLOAT3"
+                },
+                {
+                  "alias": "Compressor-2018.Velocity",
+                  "id": "ns=2;s=Simulator.Device1.FLOAT4"
+                },
+                {
+                  "alias": "Compressor-2018.Temperature",
+                  "id": "ns=2;s=Simulator.Device1.FLOAT5"
+                }
+            ]
+        }
+      },
+      "flat_to_timeseries": {
+        "type": "flattotimeseries",
+        "config": {
+          "attributes": {
+            "machine_type": "opcua"
+          }
+        }
+      },
+      "mqtt": {
+        "type": "cdpout",
+        "config": {
+          "transport_addr": "mqtt-tcp://predix-edge-broker",
+          "node_ref": "app_data",
+          "method": "pub",
+          "log_level": "debug",
+          "log_name": "opcua_mqtt"
+        }
+      }
+    },
+    "mappings": {
+      "opcua:output": "flat_to_timeseries:input",
+      "flat_to_timeseries:output": "mqtt:input"
+    }
+  }

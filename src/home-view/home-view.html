@@ -1,0 +1,121 @@
+<link rel="import" href="../../bower_components/px-steps/px-steps.html"/>
+<link rel="import" href="../../bower_components/marked-element/marked-element.html"/>
+
+<link rel="import" href="home-view-styles.html"/>
+
+<dom-module id="home-view">
+  <template>
+    <style include="home-view-styles"></style>
+    <div class="home" >
+      <div id="carouselItem" style="margin-top: 2rem; ">
+        <div id="marketecture" style="border-style: none; text-align: center; margin-top: 0rem;">
+          <marked-element >
+            <div slot="markdown-html" style="text-align:center"></div>
+            <script type="text/markdown" src="src/home-view/carousel-marketecture.md"></script>
+          </marked-element>
+          <img src="images/edge-to-cloud-marketecture.png" style="width: 58rem">
+          <marked-element >
+            <div slot="markdown-html" style="text-align:center"></div>
+            <script type="text/markdown" src="src/home-view/carousel-marketecture2.md"></script>
+          </marked-element>
+        </div>
+        <div id="predixEdgeApps" style="text-align: center">
+          <marked-element >
+            <div slot="markdown-html" style="text-align:center"></div>
+            <script type="text/markdown" src="src/home-view/carousel-edge-apps.md"></script>
+          </marked-element>
+          <img style="text-align: center" src="images/predix-edge-apps.png">
+        </div>
+        <div id="apmInsights" style="text-align: center">
+          <marked-element >
+            <div slot="markdown-html" style="text-align:center"></div>
+            <script type="text/markdown" src="src/home-view/carousel-apm.md"></script>
+          </marked-element>
+          <img src="images/apm-health-optimize.png">
+        </div>
+        <marked-element id="workshopExperience"  >
+          <div slot="markdown-html" style="margin-left: 7rem;"></div>
+          <script type="text/markdown" src="src/home-view/workshop-experience.md"></script>
+        </marked-element>
+      </div>
+    </div>
+
+  </template>
+  <script>
+    class HomeView extends Polymer.Element {
+      static get is() { return 'home-view'; }
+      static get properties() {
+        return {
+          // put properties here
+          carousel: Array,
+          steps: Object,
+          stepsData: Object,
+          handleStepTap: Function,
+        }
+      }
+      constructor() {
+        super();
+        console.log("home-view:constructor");
+        this.carousel = [];
+      }
+      connectedCallback() {
+        //a place to put some console.logs - called near startup
+        super.connectedCallback();
+        console.log("home-view connectedCallback");
+        this.steps.items=this.stepsData.slice(0,4);
+        this.carousel.push(this.$.marketecture);
+        this.carousel.push(this.$.predixEdgeApps);
+        this.carousel.push(this.$.apmInsights);
+        this.carousel.push(this.$.workshopExperience);
+        this.hide(this.$.marketecture);
+        this.hide(this.$.predixEdgeApps);
+        this.hide(this.$.apmInsights);
+        this.hide(this.$.workshopExperience);
+
+        //bind to this so function has access to properties and elements
+        this.handleStepTap = this.handleStepTapFunc.bind(this);
+        this.steps.addEventListener('px-steps-tapped-nav', this.handleStepTap);
+        if ( this.steps.setStep != null ) {
+          this.steps.jumpToStep(this.steps.setStep);
+          this.handleCarouselItem({ "detail": { "prevStep": this.steps.setStep, "currentStep": this.steps.setStep }});
+          this.steps.setStep = null;
+        }
+        else {
+          this.steps.jumpToStep(0);
+          this.handleCarouselItem({ "detail": { "prevStep": 0, "currentStep": 0}});
+        }
+      }
+      disconnectedCallback() {
+        this.steps.removeEventListener('px-steps-tapped-nav', this.handleStepTap);
+      }
+      handleStepTapFunc(event) {
+        console.log("home:handleStepTap", event.detail);
+        if ( event.detail.prevStep == 3 && event.detail.currentStep == 3 ) {
+          window.history.pushState({}, null, '/operations');
+          window.dispatchEvent(new CustomEvent('location-changed'));
+        }
+        else {
+          this.handleCarouselItem(event);
+        }
+      }
+      handleCarouselItem(event) {
+        console.log("hci",event.detail);
+        let prevItem = this.carousel[event.detail.prevStep];
+        console.log(prevItem);
+        let currentItem = this.carousel[event.detail.currentStep];
+        console.log(currentItem);
+        if ( prevItem != currentItem )
+          this.hide(prevItem);
+        this.show(currentItem);
+      }
+      hide(item) {
+        item.style.display = "none";
+      }
+      show(item) {
+        item.style.display = "block";
+      }
+    }
+
+    customElements.define(HomeView.is, HomeView);
+  </script>
+</dom-module>

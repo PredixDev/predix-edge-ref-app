@@ -1,0 +1,45 @@
+version: "3.0"
+#This file combines all the edge services and our services so that it can be deployed as a unit
+services:
+  opcua:
+    image: "dtr.predix.io/predix-edge/protocol-adapter-opcua-amd64:latest"
+    environment:
+      config: "/config/config-opcua.json"
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    networks:
+      - predix-edge-broker_net
+  cloud_gateway_timeseries:
+    image: "dtr.predix.io/predix-edge/cloud-gateway-timeseries-amd64:latest"
+    environment:
+      config: "/config/config-cloud-gateway.json"
+      http_proxy: ""
+      https_proxy: "$http_proxy"
+      HTTP_PROXY: "$http_proxy"
+      HTTPS_PROXY: "$http_proxy"
+    volumes:
+      - ./config:/config
+      - ./data:/data
+      - ./data:/edge-agent
+    networks:
+      - predix-edge-broker_net
+  edge-node-red:
+    image: "predixadoption/predix-edge-node-red:latest"
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    networks:
+      - predix-edge-broker_net
+    ports:
+      - 1880:1880
+  edge-ref-app:
+    image: "predixadoption/predix-edge-ref-app:latest"
+    networks:
+      - predix-edge-broker_net
+    ports:
+      - 5000:5000
+      - 9002:9002
+networks:
+  predix-edge-broker_net:
+    external: true

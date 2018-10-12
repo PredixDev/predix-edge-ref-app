@@ -1,0 +1,64 @@
+<link rel="import" href="../../bower_components/px-vis-timeseries/px-vis-timeseries.html">
+<link rel="import" href="../../bower_components/px-dropdown/px-dropdown.html">
+<link rel="import" href="../../bower_components/px-kpi/px-kpi-list.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="edge-live-chart-styles.html">
+<link rel="import" href="../edge-app/edge-app-personas-styles.html">
+<script src="./edge-live-chart.js"></script>
+
+
+<dom-module id="edge-live-chart">
+  <template>
+    <style include="edge-live-chart-styles"></style>
+    <style include="edge-app-personas-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div id="overview">
+      <div class="personas">
+        <div class="personas1">
+            <img src="images/edge-persona-icons-field-service-engineer.png" class="persona-img">
+            <div class="persona-name">Brian</div>
+            <div class="persona-title">Embedded Systems Engineer</div>
+        </div>
+        <div class="personas2">
+            <img src="images/edge-persona-icons-service-operations-engineer.png" class="persona-img">
+            <div class="persona-name">Susan</div>
+            <div class="persona-title">Service Operations Engineer</div>
+        </div>
+      </div>
+      <div>
+        <marked-element id="workshopExperience" >
+          <div slot="markdown-html"></div>
+          <script type="text/markdown" src="src/edge-live-chart/workshop-experience.md"></script>
+        </marked-element>
+      </div>
+    </div>
+    <div id="operations">
+      <div id="asset">
+        <px-kpi-list label="Reciprocating Compressor" values="{{assetSpecs}}">
+        </px-kpi-list>
+      </div>
+      <div id="chart">
+        <p>Time Series tags:
+        <span style="display:inline-block"><px-dropdown id="tagDropdown" items="{{tags}}" selected="{{selectedTag}}" select-by="val"></px-dropdown></span>
+      </p>
+        <px-vis-timeseries width="500" height="400" id="tsChart" chart-data="{{tsChartData}}"
+            series-config="{{tsSeriesConfig}}"
+            hide-register
+            margin='{"top":30,"bottom":60,"left":65,"right":65}'>
+        </px-vis-timeseries>
+      </div>
+
+      <iron-ajax id="specsAjax"
+        content-type="application/json"
+        url="/data/compressor-specs.json"
+        handle-as="json"
+        auto
+        debounce-duration="300">
+      </iron-ajax>
+    </div>
+  </template>
+</dom-module>

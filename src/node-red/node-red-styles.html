@@ -1,0 +1,223 @@
+<dom-module id="node-red-styles">
+<template>
+<style>
+/*------------------------------------*\
+    #PX-COLORS-DESIGN
+\*------------------------------------*/
+/**
+ * Neutral Palette (gray20 is darkest, gray1 is lightest)
+ */
+/**
+    * Define grey = gray to avoid dev typos
+    */
+/**
+ * Actionable Palette
+ */
+/**
+ * Selection Palette
+ */
+/**
+ * Dark Actionable Palette
+ */
+/**
+ * Alerts and Status
+ */
+/**
+ * Data Visualization
+ */
+/**
+     * Orange
+     */
+/**
+     * Yellow
+     */
+/**
+     * Yellow Green
+     */
+/**
+     * Green
+     */
+/**
+     * Teal
+     */
+/**
+     * Aqua
+     */
+/**
+     * Cyan
+     */
+/**
+     * Blue
+     */
+/**
+     * Violet
+     */
+/**
+     * Purple
+     */
+/**
+     * Pink
+     */
+/**
+     * Red
+     */
+/**
+     * Brown
+     */
+/**
+     * Gray
+     */
+/**
+     * Define grey = gray to avoid dev typos
+     */
+/**
+     * Salmon
+     */
+.btn {
+  display: inline-block;
+  overflow: visible;
+  height: var(--px-btn-height, 2em);
+  min-width: var(--px-btn-min-width, 4.66667em);
+  margin: 0;
+  border: 1px solid var(--px-btn-border-color, transparent);
+  border-radius: 0 !important;
+  padding: 0 calc(var(--px-btn-height, 2em) / 2);
+  box-shadow: var(--px-btn-shadow--light, none);
+  font: inherit;
+  line-height: calc(var(--px-btn-height, 2em) - 2px);
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  background-color: var(--px-btn-background, #d8e0e5);
+  transition: background .4s, border-color .4s, color .4s; }
+  .btn, .btn:link, .btn:visited, .btn:hover, .btn:active {
+    color: var(--px-btn-color, #2c404c); }
+  .btn:hover, .btn:focus {
+    border-color: var(--px-btn-border-color--hover, transparent);
+    box-shadow: var(--px-btn-shadow, none);
+    background-color: var(--px-btn-background--hover, #a3b5bf); }
+  .btn:active {
+    border-color: var(--px-btn-border-color--pressed, transparent);
+    box-shadow: none;
+    background-color: var(--px-btn-background--pressed, #889aa5); }
+  .btn:active {
+    outline: none; }
+
+@-moz-document url-prefix() {
+  .btn:not(button) {
+    line-height: 1.8em; } }
+
+button.btn {
+  -webkit-appearance: button; }
+
+.btn + .btn {
+  margin-left: 0.66667rem; }
+
+.btn--small {
+  height: 1.66667em;
+  font-size: 0.8rem;
+  line-height: calc(1.66667em - 2px); }
+
+/** Workaround for FF since it does not support calc().
+    * Other buttons appear ok with the height declaration, but non-button elements do not.
+  **/
+@-moz-document url-prefix() {
+  .btn--small {
+    line-height: 1.4em; } }
+
+#overview {
+  height: 13rem;
+  margin-top: 0rem; }
+
+#workshopExperience {
+  border-style: none;
+  height: 25rem;
+  margin-left: 15rem; }
+
+#design {
+  border-style: none;
+  width: 100%;
+  height: 100%;
+  margin-top: 3rem; }
+
+#toggleRow {
+  border-style: none;
+  font-size: 1.5rem;
+  padding-top: 1.5rem;
+  width: 100%;
+  height: 3.9rem;
+  padding-bottom: 5px; }
+
+#tutorialToggle {
+  border-style: none;
+  width: 15%;
+  height: 2rem;
+  float: left; }
+
+#architecture {
+  display: none;
+  border-style: none;
+  width: 80%;
+  float: left;
+  padding-left: 3rem; }
+
+#architectureLabel {
+  float: left;
+  padding-right: 1rem; }
+
+#architectureImage {
+  width: 10%; }
+
+#nodeTutorial {
+  display: none;
+  border-style: none;
+  margin-top: 0rem;
+  width: 0%;
+  float: left; }
+
+#tutorialPanelParent {
+  position: relative;
+  min-height: 500px; }
+
+#tutorialPanel {
+  width: 100%; }
+
+#tutorialContent {
+  margin: 20px; }
+
+#tutorialNextFrame {
+  width: 100%;
+  float: left;
+  padding-top: 10px; }
+
+#tutorialPrev {
+  float: left;
+  margin-right: 1rem; }
+
+#nodeRed {
+  float: right;
+  float: top;
+  width: 100%; }
+
+[slot="markdown-html"]
+a:link {
+  color: green; }
+
+/* visited link */
+a:visited {
+  color: green; }
+
+/* mouse over link */
+a:hover {
+  color: red; }
+
+/* selected link */
+a:active {
+  color: yellow; }
+
+</style>
+</template>
+</dom-module>

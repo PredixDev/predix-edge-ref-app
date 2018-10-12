@@ -1,0 +1,118 @@
+// Settings
+@import "px-colors-design/_settings.colors.scss";
+
+// Tools
+
+// Generic
+@import "px-normalize-design/_generic.normalize.scss";
+@import "px-box-sizing-design/_generic.box-sizing.scss";
+@import "px-helpers-design/_generic.helpers.scss";
+
+// Base
+@import "px-flexbox-design/_base.flexbox.scss";
+@import "px-viewport-design/_base.viewport.scss";
+
+@import "px-typography-design/_base.typography.scss";
+@import "px-headings-design/_base.headings.scss";
+
+// Meta
+
+// Objects
+$inuit-enable-btn--bare : true;
+$inuit-enable-btn--icon : true;
+$inuit-enable-btn--icon-border : true;
+@import "px-buttons-design/_objects.buttons.scss";
+
+// Component
+// Your css goes in here
+
+px-branding-bar {
+  background-color: var(--px-branding-bar-background-color	, rgba(1, 41, 51, 1));
+}
+
+.app-container {
+  min-height: calc(100vh - 70px);
+  overflow: hidden;
+}
+
+.dashboard {
+  border-style: none;
+  margin: 30px;
+}
+
+#steps {
+  border-style: none;
+  padding-top: 20px;
+  //margin-top: 2rem;
+  background-color: rgba(18, 31, 38, 1.0);
+  float: top;
+}
+
+#tutorial-navigation {
+  border-style: none;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: .7rem;
+}
+
+.stepper-right {
+  border-style: none;
+  float: right;
+  height: 4.4rem;
+  width: 8.4rem;
+}
+
+#stepperNext {
+  margin-top: 1.5rem;
+  color: rgb(89,106,117);
+}
+
+.stepper-left {
+  border-style: none;
+  float: left;
+  height: 4.4rem;
+  width: 8.4rem;
+}
+
+#stepperPrev {
+  margin-top: 1.5rem;
+  margin-left: 5.4rem;
+  color: rgb(89,106,117)
+}
+
+.stepper-middle {
+  border-style: none ;
+  margin: 0 8.4rem;
+  height: 4.4rem;
+}
+
+
+
+footer {
+  width: 100%;
+  float: left;
+}
+
+.footer-links {
+  float:right;
+  padding-right: 1.5rem;
+  font-size: .9rem;
+  a:link {
+      color: white;
+  }
+  a:visited {
+      color: white;
+  }
+  a:link {
+    text-decoration: none;
+  }
+}
+
+.copyright {
+  padding-left: 1.5rem;
+  font-size: .7rem;
+}
+
+// Trumps
+@import "px-spacing-responsive-design/_trumps.spacing-responsive.scss";
+@import "px-widths-responsive-design/_trumps.widths-responsive.scss";
