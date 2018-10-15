@@ -4,7 +4,7 @@ FROM node:alpine
 LABEL maintainer="Predix Builder Relations" 
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixadoption"
-LABEL version="1.0.5"
+LABEL version="1.0.6"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
@@ -45,7 +45,8 @@ RUN rm -rf ./images
 
 #RUN rm -rf ./node_modules
 
-CMD [ "cp", "./data/flows.json", "/data/" ]
-CMD [ "npm", "start"]
+COPY ./src/entry_point.sh .
 
 EXPOSE 5000
+
+ENTRYPOINT ["/usr/src/edge-ref-app/entry_point.sh"]

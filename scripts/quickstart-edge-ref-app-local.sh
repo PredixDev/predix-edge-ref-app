@@ -164,8 +164,10 @@ if [[ $SKIP_BROWSER == 0 ]]; then
        open $app_url
        ;;
      Linux)
-       # OSX
-       xdg-open $app_url
+       # Linux
+       if [[ $( which xdg-open | wc -l ) == 1 ]]; then
+         xdg-open $app_url
+       fi
        ;;
      CYGWIN*|MINGW32*|MINGW64*|MSYS*)
        # Windows
