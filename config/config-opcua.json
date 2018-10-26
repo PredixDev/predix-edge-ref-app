@@ -3,29 +3,37 @@
       "opcua": {
         "type": "opcuasubflat",
         "config": {
-            "transport_addr": "opc-tcp://3.39.89.86:49310",
+            "transport_addr": "opc-tcp://opcua-simulator:4334/UA/PredixEdge",
             "log_level": "debug",
             "data_map": [
-                {
-                  "alias": "Compressor-2018.CompressionRatio",
-                  "id": "ns=2;s=Simulator.Device1.FLOAT1"
-                },
-                {
-                  "alias": "Compressor-2018.DischargePressure",
-                  "id": "ns=2;s=Simulator.Device1.FLOAT2"
-                },
-                {
-                  "alias": "Compressor-2018.SuctionPressure",
-                  "id": "ns=2;s=Simulator.Device1.FLOAT3"
-                },
-                {
-                  "alias": "Compressor-2018.Velocity",
-                  "id": "ns=2;s=Simulator.Device1.FLOAT4"
-                },
-                {
-                  "alias": "Compressor-2018.Temperature",
-                  "id": "ns=2;s=Simulator.Device1.FLOAT5"
-                }
+              {
+                "alias": "Compressor-CMMS-Compressor-2018.crank-frame-compressionratio",
+                "id": "ns=1;s=Simulator.Device1.FLOAT1"
+              },
+              {
+                "alias": "Compressor-CMMS-Compressor-2018.crank-frame-dischargepressure",
+                "id": "ns=1;s=Simulator.Device1.FLOAT2"
+              },
+              {
+                "alias": "Compressor-CMMS-Compressor-2018.crank-frame-suctionpressure",
+                "id": "ns=1;s=Simulator.Device1.FLOAT3"
+              },
+              {
+                "alias": "Compressor-CMMS-Compressor-2018.crank-frame-maximumpressure",
+                "id": "ns=1;s=Simulator.Device1.FLOAT4"
+              },
+              {
+                "alias": "Compressor-CMMS-Compressor-2018.crank-frame-minimumpressure",
+                "id": "ns=1;s=Simulator.Device1.FLOAT5"
+              },
+              {
+                "alias": "Compressor-CMMS-Compressor-2018.crank-frame-temperature",
+                "id": "ns=1;s=Simulator.Device1.FLOAT6"
+              },
+              {
+                "alias": "Compressor-CMMS-Compressor-2018.crank-frame-velocity",
+                "id": "ns=1;s=Simulator.Device1.FLOAT7"
+              }
             ]
         }
       },

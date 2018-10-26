@@ -5,7 +5,7 @@ version: '3'
 
 services:
   predix-edge-broker:
-    image: "dtr.predix.io/predix-edge/predix-edge-mosquitto-amd64:latest"
+    image: "dtr.predix.io/predix-edge/predix-edge-broker:amd64-1.0.2"
     hostname: 127.0.0.1
     networks:
       - net

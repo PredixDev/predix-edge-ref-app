@@ -6,6 +6,8 @@ trap "trap_ctrlc" 2
 
 ROOT_DIR=$(pwd)
 SKIP_BROWSER="0"
+SKIP_PREDIX_SERVICES=false
+LOGIN=1
 function local_read_args() {
   while (( "$#" )); do
   opt="$1"
@@ -29,6 +31,7 @@ function local_read_args() {
     ;;
     -skip-predix-services|--skip-predix-services)
       SKIP_PREDIX_SERVICES="true"
+      LOGIN=0
     ;;
     *)
       QUICKSTART_ARGS+=" $1"
@@ -133,19 +136,14 @@ fi
 
 getPredixScripts
 #clone the repo itself if running from oneclick script
-pwd
-ls -lrt
-#if [[ ! -d "$PREDIX_SCRIPTS/$REPO_NAME" ]]; then
-#  echo "repo not present"
 getCurrentRepo
-#fi
-echo "pwd after copy -> $(pwd)"
-ls -lrt
 
 echo "quickstart_args=$QUICKSTART_ARGS"
 source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS 
 
+echo "sleep 20 seconds"
 sleep 20
+echo "Open in Browser at http://$IP_ADDRESS:5000"
 # Automagically open the application in browser, based on OS
 if [[ $SKIP_BROWSER == 0 ]]; then
   app_url="http://$IP_ADDRESS:5000"

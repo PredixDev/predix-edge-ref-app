@@ -1,7 +1,7 @@
 #!/bin/bash
 HOME_DIR=$(pwd)
 
-#set -x
+set -e
 
 RUN_QUICKSTART=1
 SKIP_PREDIX_SERVICES=false
@@ -54,7 +54,7 @@ BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
 
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.1.0/izon2.sh"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/master/izon2.sh"
 #ASSET_MODEL="-amrmd predix-ui-seed/server/sample-data/predix-asset/asset-model-metadata.json predix-ui-seed/server/sample-data/predix-asset/asset-model.json"
 #SCRIPT="-script build-basic-app.sh -script-readargs build-basic-app-readargs.sh"
 SCRIPT="-script edge-starter-deploy.sh -script-readargs edge-starter-deploy-readargs.sh"
@@ -65,8 +65,10 @@ SCRIPT_NAME="quickstart-edge-ref-app-local.sh"
 GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
 APP_DIR="edge-ref-app-local"
 APP_NAME="Predix Front End Basic App - Node.js Express with UAA, Asset, Time Series"
-TOOLS="Cloud Foundry CLI, Git, Node.js, Predix CLI"
-TOOLS_SWITCHES="--cf --git --nodejs --predixcli"
+
+TOOLS="Cloud Foundry CLI, Docker, Git, jq, yq, Node.js, Predix CLI"
+TOOLS_SWITCHES="--cf --docker --git --jq --yq --nodejs --predixcli"
+
 TIMESERIES_CHART_ONLY="true"
 
 # Process switches
@@ -77,7 +79,7 @@ SCRIPT_LOC="$GITHUB_RAW/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
 VERSION_JSON_URL="$GITHUB_RAW/$REPO_NAME/$BRANCH/version.json"
 
 if [[ "$SKIP_PREDIX_SERVICES" == "false" ]]; then
-  QUICKSTART_ARGS="$QUICKSTART_ARGS -uaa -ts -pst -app-name $REPO_NAME --run-edge-app -p $SCRIPT"
+  QUICKSTART_ARGS="$QUICKSTART_ARGS -uaa -ts -psts -app-name $REPO_NAME --run-edge-app -p $SCRIPT"
 else
   QUICKSTART_ARGS="$QUICKSTART_ARGS -app-name $REPO_NAME --run-edge-app -p $SCRIPT"
 fi
@@ -146,13 +148,12 @@ if [[ "$BUILD_APP" == "true" ]]; then
   cd ../..
 fi
 echo "quickstart_args=$QUICKSTART_ARGS"
-source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS 
-
-docker images
+source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS
 
 docker stack ls
 docker stack services $REPO_NAME
 docker ps
+
 # Automagically open the application in browser, based on OS
 echo "SKIP_BROWSER : $SKIP_BROWSER"
 if [[ $SKIP_BROWSER == 0 ]]; then
@@ -176,6 +177,9 @@ if [[ $SKIP_BROWSER == 0 ]]; then
   esac
 fi
 cat $SUMMARY_TEXTFILE
+if [[ $SKIP_PREDIX_SERVICES == false ]]; then
+  __append_new_line_log "To see the data in the cloud, using a browser, open the Front-end App URL shown above" "$quickstartLogDir"
+fi
 __append_new_line_log "" "$logDir"
 __append_new_line_log "Successfully completed Edge Ref App installation!" "$quickstartLogDir"
 __append_new_line_log "" "$logDir"
