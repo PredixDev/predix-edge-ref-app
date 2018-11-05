@@ -8,13 +8,13 @@ services:
     ports:
       - 4334:4334
   opcua:
-    image: "dtr.predix.io/predix-edge/protocol-adapter-opcua-amd64:1.1.0"
+    image: "dtr.predix.io/predix-edge/protocol-adapter-opcua:amd64-1.1.0"
     environment:
       config: "/config/config-opcua.json"
     networks:
       - predix-edge-broker_net
   cloud_gateway_timeseries:
-    image: "dtr.predix.io/predix-edge/cloud-gateway-timeseries-amd64:1.0.8"
+    image: "dtr.predix.io/predix-edge/cloud-gateway:amd64-1.1.0"
     environment:
       config: "/config/config-cloud-gateway.json"
       http_proxy: ""

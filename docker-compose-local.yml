@@ -18,13 +18,9 @@ services:
     networks:
       - predix-edge-broker_net
   cloud_gateway_timeseries:
-    image: "dtr.predix.io/predix-edge/cloud-gateway-timeseries-amd64:1.0.8"
+    image: "dtr.predix.io/predix-edge/cloud-gateway:amd64-1.1.0"
     environment:
       config: "/config/config-cloud-gateway.json"
-      http_proxy: ""
-      https_proxy: "$http_proxy"
-      HTTP_PROXY: "$http_proxy"
-      HTTPS_PROXY: "$http_proxy"
     volumes:
       - ./config:/config
       - ./data:/data

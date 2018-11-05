@@ -1,35 +1,30 @@
 {
-  "blocks": {
-    "mqtt": {
-      "type": "cdpin",
-      "config": {
-        "transport_addr": "mqtt-tcp://predix-edge-broker",
-        "node_ref": "timeseries_data",
-        "method": "sub",
-        "log_name":"gateway_mqtt_source",
-        "log_level": "debug"
-      }
-    },
-    "timeseries": {
-      "type": "timeseriessink",
-      "config": {
-        "transport_addr": "wss://gateway-predix-data-services.run.aws-usw02-pr.ice.predix.io/v1/stream/messages",
-        "node_ref": "timeseries",
-        "method": "set",
-        "log_name":"gateway_predix_sink",
-        "log_level": "debug",
-        "directory": "/data/store_forward_queue",
-        "max_cache_size_units": "%",
-        "max_cache_size": 90,
-        "options": {
-          "predix_zone_id": "<Put your Timeseries Zone ID>",
-          "token_file": "/edge-agent/access_token",
-          "proxy_url": "<<Put your proxy url>>"
+    "blocks": {
+        "time_series_sender": {
+            "type": "timeseries",
+            "config": {
+                "log_name": "time_series_sender",
+                "log_level": "warn",
+                "mqtt": {
+                    "transport_addr": "mqtt-tcp://predix-edge-broker",
+                    "qos": 0,
+                    "client_id": "time_series_sender_mqtt_client",
+                    "topics": [
+                        "timeseries_data"
+                    ]
+                },
+                "store_forward": {
+                    "policy": "store_always",
+                    "max_store_percent": 15,
+                    "max_batch_interval": 1000
+                },
+                "timeseries": {
+                    "transport_addr": "wss://gateway-predix-data-services.run.aws-usw02-pr.ice.predix.io/v1/stream/messages",
+                    "predix_zone_id": "<Put your Timeseries Zone ID>",
+                    "token_file": "/edge-agent/access_token",
+                    "proxy_url": "<<Put your proxy url>>"
+                }
+            }
         }
-      }
     }
-  },
-  "mappings": {
-    "mqtt:output": "timeseries:input"
-  }
 }

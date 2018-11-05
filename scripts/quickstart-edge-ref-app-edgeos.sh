@@ -52,7 +52,7 @@ BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
 
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.1.0/izon2.sh"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
 #ASSET_MODEL="-amrmd predix-ui-seed/server/sample-data/predix-asset/asset-model-metadata.json predix-ui-seed/server/sample-data/predix-asset/asset-model.json"
 #SCRIPT="-script build-basic-app.sh -script-readargs build-basic-app-readargs.sh"
 SCRIPT="-script edge-starter-deploy.sh -script-readargs edge-starter-deploy-readargs.sh"
@@ -139,7 +139,7 @@ getPredixScripts
 getCurrentRepo
 
 echo "quickstart_args=$QUICKSTART_ARGS"
-source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS 
+source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS
 
 echo "sleep 20 seconds"
 sleep 20
@@ -155,7 +155,10 @@ if [[ $SKIP_BROWSER == 0 ]]; then
        ;;
      Linux)
        # OSX
-       xdg-open $app_url
+       if [[ $( which xdg-open | wc -l ) == 1 ]]; then
+         xdg-open $app_url
+       fi
+       echo "Please open the browser on VM Host(not DevBox) and point to $app_url" >> $SUMMARY_TEXTFILE
        ;;
      CYGWIN*|MINGW32*|MINGW64*|MSYS*)
        # Windows
@@ -164,4 +167,7 @@ if [[ $SKIP_BROWSER == 0 ]]; then
   esac
 fi
 
-echo "Deployed Predix Edge Hello World Application to Predix Edge OS."
+cat $SUMMARY_TEXTFILE
+__append_new_line_log "" "$logDir"
+__append_new_line_log "Deployed Predix Edge Reference Application to Predix Edge OS!" "$quickstartLogDir"
+__append_new_line_log "" "$logDir"

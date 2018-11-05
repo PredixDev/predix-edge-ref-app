@@ -1,10 +1,10 @@
-FROM node:alpine
+FROM node:10-alpine
 #FROM mhart/alpine-node:4
 
 LABEL maintainer="Predix Builder Relations"
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixadoption"
-LABEL version="1.0.10"
+LABEL version="1.0.11"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
@@ -22,6 +22,8 @@ COPY src ./src
 COPY images ./images
 # COPY test ./test
 COPY bower.json gulpfile.js package*.json polymer.json ./
+
+RUN node -v
 
 RUN npm install
 RUN bower install --allow-root

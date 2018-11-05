@@ -45,7 +45,7 @@ BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
 
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.1.0/izon2.sh"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
 SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
 QUICKSTART_ARGS="$QUICKSTART_ARGS -p -cp -cd -ca -cc -ed -edge-app-name edge-ref-app $SCRIPT"
 VERSION_JSON="version.json"

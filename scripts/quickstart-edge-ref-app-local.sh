@@ -54,7 +54,7 @@ BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
 
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/master/izon2.sh"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
 #ASSET_MODEL="-amrmd predix-ui-seed/server/sample-data/predix-asset/asset-model-metadata.json predix-ui-seed/server/sample-data/predix-asset/asset-model.json"
 #SCRIPT="-script build-basic-app.sh -script-readargs build-basic-app-readargs.sh"
 SCRIPT="-script edge-starter-deploy.sh -script-readargs edge-starter-deploy-readargs.sh"
@@ -178,7 +178,7 @@ if [[ $SKIP_BROWSER == 0 ]]; then
 fi
 cat $SUMMARY_TEXTFILE
 if [[ $SKIP_PREDIX_SERVICES == false ]]; then
-  __append_new_line_log "To see the data in the cloud, using a browser, open the Front-end App URL shown above" "$quickstartLogDir"
+  __append_new_line_log "To see the data in the cloud, using a browser, open the Front-end App URL shown above.  With login=app_user_1, password=App_User_111" "$quickstartLogDir"
 fi
 __append_new_line_log "" "$logDir"
 __append_new_line_log "Successfully completed Edge Ref App installation!" "$quickstartLogDir"
