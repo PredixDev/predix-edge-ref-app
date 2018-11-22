@@ -64,7 +64,7 @@ REPO_NAME="predix-edge-ref-app"
 SCRIPT_NAME="quickstart-edge-ref-app-local.sh"
 GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
 APP_DIR="edge-ref-app-local"
-APP_NAME="Predix Front End Basic App - Node.js Express with UAA, Asset, Time Series"
+APP_NAME="Predix Edge Reference App - local"
 
 TOOLS="Cloud Foundry CLI, Docker, Git, jq, yq, Node.js, Predix CLI"
 TOOLS_SWITCHES="--cf --docker --git --jq --yq --nodejs --predixcli"

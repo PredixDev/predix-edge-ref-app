@@ -61,10 +61,10 @@ PREDIX_SCRIPTS=predix-scripts
 REPO_NAME=predix-edge-ref-app
 SCRIPT_NAME="quickstart-edge-ref-app-edgeos.sh"
 GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
-APP_DIR="edge-ref-app-edgeos"
-APP_NAME="Predix Front End Basic App - Node.js Express with UAA, Asset, Time Series"
-TOOLS=""
-TOOLS_SWITCHES=""
+APP_DIR="edge-ref-app-local"
+APP_NAME="Predix Edge Reference App - predix edgeos"
+TOOLS="Docker, VMWare Fusion"
+TOOLS_SWITCHES="--docker --vmware"
 TIMESERIES_CHART_ONLY="true"
 
 

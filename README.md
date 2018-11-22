@@ -250,5 +250,5 @@ Now Push the docker image to the DTR.
 docker push ???
 ```
 
-[![Analytics](https://ga-beacon.appspot.com/UA-82773213-1/predix-rmd-ref-app/readme?pixel)](https://github.com/PredixDev)
+[![Analytics](https://predix-beacon.appspot.com/UA-82773213-1/predix-rmd-ref-app/readme?pixel)](https://github.com/PredixDev)
 

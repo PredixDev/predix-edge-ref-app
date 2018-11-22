@@ -1,7 +1,7 @@
 #!/bin/bash
 HOME_DIR=$(pwd)
 set -e
-
+LOGIN=1
 RUN_QUICKSTART=1
 SKIP_PREDIX_SERVICES="false"
 function local_read_args() {
@@ -17,6 +17,10 @@ function local_read_args() {
       BRANCH="$2"
       QUICKSTART_ARGS+=" $1 $2"
       shift
+    ;;
+    --skip-predix-services)
+      SKIP_PREDIX_SERVICES="true"
+      LOGIN=0
     ;;
     -o|--override)
       QUICKSTART_ARGS=" $SCRIPT"
@@ -45,18 +49,19 @@ BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
 
+REPO_NAME=predix-edge-ref-app
 IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
 SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
-QUICKSTART_ARGS="$QUICKSTART_ARGS -p -cp -cd -ca -cc -ed -edge-app-name edge-ref-app $SCRIPT"
+QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --create-application --create-configuration --create-device --enroll-device -edge-app-name $REPO_NAME -asset-name Compressor-CMMS-Compressor-2018 $SCRIPT"
 VERSION_JSON="version.json"
 PREDIX_SCRIPTS=predix-scripts
-REPO_NAME=edge-ref-app
+
 SCRIPT_NAME="edge-ref-app-em.sh"
 GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
-APP_DIR="edge-ref-app-em"
-APP_NAME="Predix Front End Basic App - Node.js Express with UAA, Asset, Time Series"
-TOOLS="Cloud Foundry CLI, Git, Node.js, Predix CLI"
-TOOLS_SWITCHES="--cf --git --nodejs --predixcli"
+APP_DIR="edge-ref-app-local"
+APP_NAME="Predix Edge Reference App - edge manager"
+TOOLS="Cloud Foundry CLI, Docker, Git, JQ, Node.js, Predix CLI, YQ"
+TOOLS_SWITCHES="--cf --docker --git --jq --nodejs --predixcli --yq"
 TIMESERIES_CHART_ONLY="true"
 
 # Process switches
@@ -65,6 +70,7 @@ local_read_args $@
 #variables after processing switches
 SCRIPT_LOC="$GITHUB_RAW/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
 VERSION_JSON_URL=https://raw.githubusercontent.com/PredixDev/$REPO_NAME/$BRANCH/version.json
+
 
 #if [[ "$SKIP_PREDIX_SERVICES" == "false" ]]; then
 #  QUICKSTART_ARGS="$QUICKSTART_ARGS --run-edge-app -p $SCRIPT"
@@ -102,7 +108,7 @@ function init() {
 
   #get the script that reads version.json
   eval "$(curl -s -L $IZON_SH)"
-  curl -O $SCRIPT_LOC; chmod 755 $SCRIPT_NAME;
+  #curl -O $SCRIPT_LOC; chmod 755 $SCRIPT_NAME;
   getVersionFile
   getLocalSetupFuncs $GITHUB_RAW
 }
@@ -120,62 +126,24 @@ else
 fi
 
 getPredixScripts
-#clone the repo itself if running from oneclick script
-getCurrentRepo
 
-docker images
+echo "SKIP_PREDIX_SERVICES : $SKIP_PREDIX_SERVICES"
+echo "LOGIN : $LOGIN"
 
-#count=$(docker images "nodered/node-red-docker" -q | wc -l | tr -d " ")
-#if [[ $count == 0 ]]; then
-#  if [[ ! -d "edge-node-red" ]]; then
-    #git clone https://github.com/PredixDev/edge-node-red.git
-#  fi
-  #cd edge-node-red
-  #docker build --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t edge-node-red:latest .
-  #docker images
-  #cd ..
-#else
-#  echo "nodered image already present"
-#fi
-#echo "Edge Node Red image built"
-
-#Build the application
-#cd $PREDIX_SCRIPTS/$REPO_NAME
-#npm install
-#bower install
-#./node_modules/gulp/bin/gulp.js dist
-#cd ../..
-#Build Application end
-
-echo "quickstart_args=$QUICKSTART_ARGS"
-source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS
-
-echo "33"
-docker images
-
-docker stack ls
-docker stack services edge-ref-app
-docker ps
-# Automagically open the application in browser, based on OS
-echo "SKIP_BROWSER : $SKIP_BROWSER"
-if [[ $SKIP_BROWSER == 0 ]]; then
-  app_url="http://localhost:5000"
-
-  case "$(uname -s)" in
-     Darwin)
-       # OSX
-       open $app_url
-       ;;
-     Linux)
-       # OSX
-       xdg-open $app_url
-       ;;
-     CYGWIN*|MINGW32*|MINGW64*|MSYS*)
-       # Windows
-       start "" $app_url
-       ;;
-  esac
+if [[ -e 'predix-scripts' ]]; then
+  echo "quickstart_args=$QUICKSTART_ARGS"
+  source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS
+else
+  echo "Please run quickstart-edge-ref-app-local.sh first before running this script."
+  exit 1
 fi
+
+echo "Created Device $DEVICE_ID in Edge Manager and uploaded the Edge Application and Configuration to repository in Edge Manager."
+echo "Your Edge Manager url is https://$EM_TENANT_ID.edgemanager.run.aws-usw02-pr.ice.predix.io"
+echo "Next, go to Predix Edge Technician Console and Enroll the Edge OS with Edge Manager. You can access the Predix Edge Technician Console at https://$IP_ADDRESS"
+echo "Then deploy the Applcation and Configuration to Edge OS."
+echo "Once the deployment of application and configuration is successfull, Open in Browser at https://$IP_ADDRESS:5000"
+
 cat $SUMMARY_TEXTFILE
 __append_new_line_log "" "$logDir"
 __append_new_line_log "Successfully completed Edge Ref App installation!" "$quickstartLogDir"
