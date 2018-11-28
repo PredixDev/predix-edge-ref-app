@@ -1,7 +1,7 @@
 
 ## What you need to do
 
-Now let's redesign our data flow to scale the values of the sensor data by 1000.
+Now let's redesign our data flow to scale the values of the sensor data by 100.
 
 ## The Initial Flow
 
@@ -13,7 +13,7 @@ The flow should start out like this.
 
 ## See the Traffic
 
-1. Drag a link from the OPCUA Adapter Topic to the Cloud Gateway Topic
+1. Drag a link from the OPCUA Adapter Topic to the msg.payload (debug node)
 2. Click the Deploy button up above
 3. Click the Debug tab up above
 
@@ -45,7 +45,7 @@ This is the same traffic you saw on the Operations tab in the graph and it is cu
 
           //don't do this for workshop - APM Asset Model needs to match
           //you could even give the scaled tag a new name
-          //item.body[0].name = tagName + '.scaled_x_1000';
+          //item.body[0].name = tagName + '.scaled_x_100';
 
           var scaled_item = JSON.stringify(item);
 

@@ -140,18 +140,23 @@ getPredixScripts
 rm -rf predix-scripts/$REPO_NAME
 getCurrentRepo
 
+echo "docker images"
 docker images
 
 if [[ "$BUILD_APP" == "true" ]]; then
   cd $PREDIX_SCRIPTS/$REPO_NAME
+  echo "docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg http_proxy --build-arg https_proxy -t predixadoption/predix-edge-ref-app:latest ."
   docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg http_proxy --build-arg https_proxy -t predixadoption/predix-edge-ref-app:latest .
   cd ../..
 fi
 echo "quickstart_args=$QUICKSTART_ARGS"
 source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS
 
+echo "docker stack ls"
 docker stack ls
+echo "docker stack services $REPO_NAME"
 docker stack services $REPO_NAME
+echo "docker ps"
 docker ps
 
 # Automagically open the application in browser, based on OS

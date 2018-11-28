@@ -4,7 +4,7 @@ FROM node:10-alpine
 LABEL maintainer="Predix Builder Relations"
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixadoption"
-LABEL version="1.0.12"
+LABEL version="1.0.15"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
@@ -25,6 +25,7 @@ COPY bower.json gulpfile.js package*.json polymer.json ./
 
 RUN node -v
 
+RUN npm cache clean --force
 RUN npm install
 RUN bower install --allow-root
 # RUN gulp dist

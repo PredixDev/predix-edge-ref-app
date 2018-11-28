@@ -11,7 +11,7 @@ APM is a comprehensive tool with many aspects and features.  You will:
 - View a Policy Designer screen which was used to define Alerts and Summary info
 - See an Asset Strategy analysis to highlight the very expensive Event you entered
 
-It is assumed you have your own APM environment, please follow [these tutorials](https://www.predix.io/resources/tutorials/journey.html#2583) to set up your APM and receive the Event record via Predix Time Series using Policy Designer.  Instead of choosing the time series tag **Compressor-2018.suction-pressure** use **Compressor-2018.device-event** instead.
+It is assumed you have your own APM environment, please follow [these tutorials](https://www.predix.io/resources/tutorials/journey.html#2583) to set up your APM and receive the Event record via Predix Time Series using Policy Designer.  Instead of choosing the time series tag **Compressor-CMMS-Compressor-2018.suction-pressure** use **Compressor-CMMS-Compressor-2018.device-event** instead.
 
 ## 2. Monitor with a Cloud App
 

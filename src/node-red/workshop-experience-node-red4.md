@@ -11,23 +11,23 @@ Here are the tag definitions used by the OPCUA Adapter to convert the sensor dat
             "log_level": "debug",
             "data_map": [
                 {
-                  "alias": "Compressor-2017:CompressionRatio",
+                  "alias": "Compressor-CMMS-Compressor-2018:CompressionRatio",
                   "id": "ns=2;s=Simulator.Device1.FLOAT1"
                 },
                 {
-                  "alias": "Compressor-2017:DischargePressure",
+                  "alias": "Compressor-CMMS-Compressor-2018:DischargePressure",
                   "id": "ns=2;s=Simulator.Device1.FLOAT2"
                 },
                 {
-                  "alias": "Compressor-2017:SuctionPressure",
+                  "alias": "Compressor-CMMS-Compressor-2018:SuctionPressure",
                   "id": "ns=2;s=Simulator.Device1.FLOAT3"
                 },
                 {
-                  "alias": "Compressor-2017:Velocity",
+                  "alias": "Compressor-CMMS-Compressor-2018:Velocity",
                   "id": "ns=2;s=Simulator.Device1.FLOAT4"
                 },
                 {
-                  "alias": "Compressor-2017:Temperature",
+                  "alias": "Compressor-CMMS-Compressor-2018:Temperature",
                   "id": "ns=2;s=Simulator.Device1.FLOAT5"
                 }
             ]

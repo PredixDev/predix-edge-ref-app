@@ -19,8 +19,8 @@ The application consists of several Docker Containers, some from the Predix Edge
 
 You can run the application locally in Docker. And then test the App in a Predix Edge OS Virtual Machine running in VMWare Fusion.  Finally, you upload the application as a tar ball to the Predix Edge Manager.  From there you can deploy to the Predix Edge OS VM or to all your production devices.
 
-1. Local Docker - All Containers from Docker Trusted Registry (DTR)
-1. Local Docker - All Containers from Docker Trusted Registry, except UI running via Gulp (for interactive development)
+1. Local Docker - All Containers from [Docker Hub](https://hub.docker.com/search/?isAutomated=0&isOfficial=0&page=1&pullCount=0&q=predix&starCount=0)
+1. Local Docker - All Containers from [Docker Hub](https://hub.docker.com/search/?isAutomated=0&isOfficial=0&page=1&pullCount=0&q=predix&starCount=0), except UI running via Gulp (for interactive development)
 1. In Predix Edge OS VM
 1. Push tar to Edge Manager, then deploy to Predix Edge OS VM or production device.
 
@@ -42,17 +42,28 @@ Stack 1:
 Stack 2: 
 - All other containers - docker-compose-local.yml(when running in local docker) or docker-compose.yml (when running in Predix Edge OS)
 
-### Pull the containers to your local repo
-FYI, the dtr.predix.io will change to artifactory.predix.io at some point.
+### Download the containers to your local repo
 
+Using a browser visit and log in with your Predix account.  GE Users will use SSO Login.
 ```sh
-docker login dtr.predix.io -u user-here -p password-here
+https://artifactory.predix.io/artifactory/webapp/#/home
 ```
 
+Navigate to the Artifacts and download and untar the following files, changing to the most recent version folder. 
 ```sh
- docker pull dtr.predix.io/predix-edge/predix-edge-mosquitto-amd64:latest
- docker pull dtr.predix.io/predix-edge/protocol-adapter-opcua-amd64:latest
- docker pull dtr.predix.io/predix-edge/cloud-gateway-timeseries-amd64:latest
+ PREDIX-EXT/predix-edge/2_1_0/os/predix-edge-broker-aarch64-20180917-1.0.2.tar.gz
+ PREDIX-EXT/predix-edge/2_1_0/apps/adapters/predix-edge-opc-ua-adapter-aarch64-20180919-1.1.0.tar.gz
+ PREDIX-EXT/predix-edge/2_1_0/apps/gateway/predix-edge-cloud-gateway-aarch64-20180919-1.1.0.tar.gz
+```
+
+Untar each file
+```sh
+ tar xvfz $imageTarFile
+```
+
+Load each one into your local Docker repository
+```sh
+ docker load -i images.tar
 ```
 
 Get the edge-node-red and edge-ref-app ui from the Docker Repository
@@ -162,7 +173,7 @@ For more ideas, look here:
 https://medium.com/@betz.mark/ten-tips-for-debugging-docker-containers-cde4da841a1d
 
 ## 
-## How to develop the UI application locally (not downloaded from DTR and in a docker container)
+## How to develop the UI application locally (not downloaded from Docker Hub and in a docker container)
 
 Say you want to make some changes to the UI application and run it locally for development purposes.
 
@@ -219,7 +230,7 @@ Your application is already set up to be tested via [web-component-tester](https
 Open http://127.0.0.1:5000 in your browser.
 
 
-## How to push the edge-ref-app to the DTR
+## How to push the edge-ref-app to the Docker Hub
 
 You will want to fork this repo and push to your own Docker registry such as Docker Hub or if you have permissions to the Predix DTR.
 
@@ -231,24 +242,24 @@ If you need to create the Image locally, use docker build.  But first check the 
 ```
 Next build the docker image:
 
-This command uses the Dockerfile to create the docker container so it can be uploaded to the DTR.  If you are behind a corporate proxy server, use the proxy switches or remove them if not needed for your situation. 
+This command uses the Dockerfile to create the docker container so it can be uploaded to Docker Hub.  If you are behind a corporate proxy server, use the proxy switches or remove them if not needed for your situation. 
 
 ```sh
 docker build -t edge-ref-app:1.0.0 --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy .
 ```
 
-Now log in to the DTR:
+Now log in to the Docker Hub:
 
 ```sh
 docker login ???
 ```
 
 
-Now Push the docker image to the DTR.
+Now Push the docker image to the Docker Hub.
 
 ```sh
 docker push ???
 ```
 
-[![Analytics](https://predix-beacon.appspot.com/UA-82773213-1/predix-rmd-ref-app/readme?pixel)](https://github.com/PredixDev)
+[![Analytics](https://predix-beacon.appspot.com/UA-82773213-1/predix-edge-ref-app/readme?pixel)](https://github.com/PredixDev)
 

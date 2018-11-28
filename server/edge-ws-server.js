@@ -3,7 +3,7 @@ const WebSocket = require('ws');
 const url = require('url');
 const jsonify = require('./jsonify-funcs.js');
 
-//a map of web socket servers, the key is the url path, e.g. /livestream/Compressor-2017:DischargePressure
+//a map of web socket servers, the key is the url path, e.g. /livestream/Compressor-CMMS-Compressor-2018:DischargePressure
 const wsMap = new Map();
 
 //TODO: does this interfere with the node.js itself?
@@ -38,7 +38,7 @@ server.on('upgrade', function upgrade(request, socket, head) {
   }
 });
 
-//add a new websocket server for a particular URL, e.g. /livestream/Compressor-2017:DischargePressure
+//add a new websocket server for a particular URL, e.g. /livestream/Compressor-CMMS-Compressor-2018:DischargePressure
 const add = function add(key) {
   const wss = new WebSocket.Server({ noServer: true });
   wsMap.set(key,wss);
