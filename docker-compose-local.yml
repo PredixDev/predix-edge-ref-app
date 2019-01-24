@@ -25,7 +25,7 @@ services:
     networks:
       - predix-edge-broker_net
     labels:
-      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"inbound":[],"outbound":[]}},"ds1":{"edge-type":"external","opcua":{"inbound":[],"outbound":[]}}}'
+      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"inbound":[],"outbound":["app_data"]}},"ds1":{"edge-type":"external","opcua":{"inbound":[],"outbound":[]}}}'
   cloud_gateway_timeseries:
     image: "dtr.predix.io/predix-edge/cloud-gateway:amd64-1.1.0"
     environment:
