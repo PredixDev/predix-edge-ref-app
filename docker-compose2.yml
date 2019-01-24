@@ -1,0 +1,74 @@
+version: "3.0"
+#This file combines all the edge services and our services so that it can be deployed as a unit
+services:
+  opcua-simulator:
+    image: "predixadoption/predix-edge-opcua-simulator:latest"
+    environment:
+    hostname: "opcua-simulator"
+    networks:
+      - predix-edge-broker_net
+    ports:
+      - 4334:4334
+    labels:
+      datasources: ''
+  opcua:
+    image: "dtr.predix.io/predix-edge/protocol-adapter-opcua:amd64-1.1.0"
+    environment:
+      config: "/config/config-opcua.json"
+      datasources_ds0_mqtt_address: "mqtt-tcp://predix-edge-broker"
+      datasources_ds0_mqtt_inbound_0: ""
+      datasources_ds0_mqtt_outbound_0: "app_data"
+      datasources_ds1_opcua_address: "opc-tcp://opcua-simulator:4334/UA/PredixEdge"
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    networks:
+      - predix-edge-broker_net
+    labels:
+      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"transport_addr":"mqtt-tcp://predix-edge-broker","inbound":[],"outbound":["app_data"]}},"ds1":{"edge-type":"internal","service":"opcua-simulator","opcua":{"address":"opc-tcp://opcua-simulator:4334/UA/PredixEdge"}}}'
+  cloud_gateway_timeseries:
+    image: "dtr.predix.io/predix-edge/cloud-gateway:amd64-1.1.0"
+    environment:
+      config: "/config/config-cloud-gateway.json"
+      datasources_ds0_mqtt_address: "mqtt-tcp://predix-edge-broker"
+      datasources_ds0_mqtt_inbound_0: "timeseries_data"
+      datasources_ds0_mqtt_outbound_0: ""
+    volumes:
+      - ./config:/config
+      - ./data:/data
+      - ./data:/edge-agent
+    networks:
+      - predix-edge-broker_net
+    labels:
+      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"transport_addr":"mqtt-tcp://predix-edge-broker","inbound":["timeseries_data"],"outbound":[]}},"ds1":{"edge-type":"external","timeseries":{"uri":"wss://gateway-predix-data-services.run.aws-usw02-pr.ice.predix.io/v1/stream/messages","zone-http-header-name":"Predix-Zone-Id","zone-http-header-value":"4c6a704a-a25e-429c-b957-3d7d7ddf497e"}}}'
+  predix-edge-node-red:
+    image: "predixadoption/predix-edge-node-red:latest"
+    environment:
+      datasources_ds0_mqtt_address: "mqtt://predix-edge-broker"
+      datasources_ds0_mqtt_inbound_0: "app_data"
+      datasources_ds0_mqtt_outbound_0: "timeseries_data"
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    networks:
+      - predix-edge-broker_net
+    ports:
+      - 1880:1880
+    labels:
+      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"address":"mqtt://predix-edge-broker","inbound":["app_data"],"outbound":["timeseries_data"]}}}'
+  predix-edge-ref-app:
+    image: "predixadoption/predix-edge-ref-app:latest"
+    environment:
+      datasources_ds0_mqtt_address: "mqtt://predix-edge-broker"
+      datasources_ds0_mqtt_inbound_0: "app_data"
+      datasources_ds0_mqtt_outbound_0: ""
+    networks:
+      - predix-edge-broker_net
+    ports:
+      - 5000:5000
+      - 9002:9002
+    labels:
+      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"inbound":["app_data"],"outbound":[]}}}'
+networks:
+  predix-edge-broker_net:
+    external: true
