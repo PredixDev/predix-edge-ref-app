@@ -12,7 +12,7 @@ services:
     ports:
       - 4334:4334
     labels:
-      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"inbound":[],"outbound":[]}}}'
+      datasources: '{"ds0":{"edgeType":"internal","mqtt":{"inbound":[],"outbound":[]}}}'
   opcua:
     image: "dtr.predix.io/predix-edge/protocol-adapter-opcua:amd64-1.1.0"
     environment:
@@ -25,7 +25,7 @@ services:
     networks:
       - predix-edge-broker_net
     labels:
-      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"inbound":[],"outbound":["app_data"]}},"ds1":{"edge-type":"external","opcua":{"inbound":[],"outbound":[]}}}'
+      datasources: '{"ds0":{"edgeType":"internal","mqtt":{"inbound":[],"outbound":["app_data"]}},"ds1":{"edgeType":"external","opcua":{"inbound":[],"outbound":[]}}}'
   cloud_gateway_timeseries:
     image: "dtr.predix.io/predix-edge/cloud-gateway:amd64-1.1.0"
     environment:
@@ -39,7 +39,7 @@ services:
     networks:
       - predix-edge-broker_net
     labels:
-      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"inbound":["timeseries_data"],"outbound":[]}},"ds1":{"edge-type":"external","timeseries":{"uri":"wss://gateway-predix-data-services.run.aws-usw02-pr.ice.predix.io/v1/stream/messages","zone-http-header-name":"Predix-Zone-Id","zone-http-header-value":"4c6a704a-a25e-429c-b957-3d7d7ddf497e"}}}'
+      datasources: '{"ds0":{"edgeType":"internal","mqtt":{"inbound":["timeseries_data"],"outbound":[]}},"ds1":{"edgeType":"external","timeseries":{"uri":"wss://gateway-predix-data-services.run.aws-usw02-pr.ice.predix.io/v1/stream/messages","zone-http-header-name":"Predix-Zone-Id","zone-http-header-value":"4c6a704a-a25e-429c-b957-3d7d7ddf497e"}}}'
   predix-edge-node-red:
     image: "predixadoption/predix-edge-node-red:latest"
     environment:
@@ -53,7 +53,7 @@ services:
     ports:
       - 1880:1880
     labels:
-      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"inbound":["app_data"],"outbound":["timeseries_data"]}}}'
+      datasources: '{"ds0":{"edgeType":"internal","mqtt":{"inbound":["app_data"],"outbound":["timeseries_data"]}}}'
   predix-edge-ref-app:
     image: "predixadoption/predix-edge-ref-app:latest"
     environment:
@@ -65,7 +65,7 @@ services:
       - 5000:5000
       - 9002:9002
     labels:
-      datasources: '{"ds0":{"edge-type":"internal","mqtt":{"inbound":["app_data"],"outbound":[]}}}'
+      datasources: '{"ds0":{"edgeType":"internal","mqtt":{"inbound":["app_data"],"outbound":[]}}}'
 networks:
   predix-edge-broker_net:
     external: true
