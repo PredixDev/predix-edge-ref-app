@@ -52,7 +52,7 @@ SKIP_SETUP=false
 REPO_NAME=predix-edge-ref-app
 IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
 SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
-QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --create-application --create-configuration --create-device --enroll-device -edge-app-name $REPO_NAME -asset-name Compressor-CMMS-Compressor-2018 $SCRIPT"
+QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --create-application --create-configuration --create-device -edge-app-name $REPO_NAME -asset-name Compressor-CMMS-Compressor-2018 $SCRIPT"
 VERSION_JSON="version.json"
 PREDIX_SCRIPTS=predix-scripts
 
@@ -140,9 +140,9 @@ fi
 
 echo "Created Device $DEVICE_ID in Edge Manager and uploaded the Edge Application and Configuration to repository in Edge Manager."
 echo "Your Edge Manager url is https://$EM_TENANT_ID.edgemanager.run.aws-usw02-pr.ice.predix.io"
-echo "Next, go to Predix Edge Technician Console and Enroll the Edge OS with Edge Manager. You can access the Predix Edge Technician Console at https://$IP_ADDRESS"
+echo "Next, go to Predix Edge Technician Console and Enroll the Edge OS with Edge Manager. You can access the Predix Edge Technician Console at https://$DEVICE_IP_ADDRESS"
 echo "Then deploy the Applcation and Configuration to Edge OS."
-echo "Once the deployment of application and configuration is successfull, Open in Browser at https://$IP_ADDRESS:5000"
+echo "Once the deployment of application and configuration is successfull, Open in Browser at https://$DEVICE_IP_ADDRESS:5000"
 
 cat $SUMMARY_TEXTFILE
 __append_new_line_log "" "$logDir"

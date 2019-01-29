@@ -4,7 +4,7 @@ FROM node:10-alpine
 LABEL maintainer="Predix Builder Relations"
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixadoption"
-LABEL version="1.0.15"
+LABEL version="1.0.16"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
@@ -27,6 +27,7 @@ RUN node -v
 
 RUN npm cache clean --force
 RUN npm install
+RUN npm install natives@1.1.6
 RUN bower install --allow-root
 # RUN gulp dist
 RUN ./node_modules/gulp/bin/gulp.js dist

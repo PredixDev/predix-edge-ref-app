@@ -143,10 +143,10 @@ source $PREDIX_SCRIPTS/bash/quickstart.sh $QUICKSTART_ARGS
 
 echo "sleep 20 seconds"
 sleep 20
-echo "Open in Browser at http://$IP_ADDRESS:5000"
+echo "Open in Browser at http://$DEVICE_IP_ADDRESS:5000"
 # Automagically open the application in browser, based on OS
 if [[ $SKIP_BROWSER == 0 ]]; then
-  app_url="http://$IP_ADDRESS:5000"
+  app_url="http://$DEVICE_IP_ADDRESS:5000"
 
   case "$(uname -s)" in
      Darwin)
