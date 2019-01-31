@@ -5,14 +5,18 @@ const appConfig = require('./edge-ref-app-config.js');
 var ws = require('./edge-ws-server.js');
 
 const client = mqtt.connect(appConfig.mqttHost);
+var topics = [];
+let topicToMonitor = appConfig.operationsTopic;
 
 client.on('connect', () => {
-  client.subscribe('app_data');
+  client.subscribe("#");
   console.log('mqtt client connected with options: ', client.options);
 })
 
 client.on('message', (topic, message) => {
-  if(topic === 'app_data') {
+  if ( !topics.includes(topic) )
+    topics[topics.length] = topic;
+  if(topic === topicToMonitor) {
     const obj = JSON.parse(message.toString());
     const path = '/livestream/' + obj.body[0].name;
     const wss = ws.wsMap.get(path);
@@ -30,6 +34,17 @@ client.stream.on('error', (err) => {
   console.error(err.message);
   console.error(err);
 })
+
+function getTopics(req,res) {
+  console.log("getTopics");
+  console.log(topics);
+  res.send(topics);
+}
+
+function postTopic(req,res) {
+  console.log("postTopic");
+  topicToMonitor = req.body[0];
+}
 
 function handleDeviceEvent(req,res) {
   console.log("handleDeviceEvent");
@@ -62,7 +77,8 @@ function handleDeviceEvent(req,res) {
   console.log(JSON.stringify(tsIngest));
 }
 
-
 module.exports = {
-  handleDeviceEvent: handleDeviceEvent
+  handleDeviceEvent: handleDeviceEvent,
+  getTopics: getTopics,
+  postTopic: postTopic
 }

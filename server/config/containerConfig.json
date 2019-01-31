@@ -1,3 +1,4 @@
 {
-  "mqttHost": "mqtt://predix-edge-broker"
+  "mqttHost": "mqtt://predix-edge-broker",
+  "operationsTopic": "app_data"
 }

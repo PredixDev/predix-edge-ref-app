@@ -2,7 +2,7 @@ version: "3.0"
 #This file combines all the edge services and our services so that it can be deployed as a unit
 services:
   opcua-simulator:
-    image: "predixadoption/predix-edge-opcua-simulator:latest"
+    image: "predixadoption/predix-edge-opcua-simulator:1.0.5"
     networks:
       - predix-edge-broker_net
     ports:
@@ -24,7 +24,7 @@ services:
     networks:
       - predix-edge-broker_net
   predix-edge-node-red:
-    image: "predixadoption/predix-edge-node-red:latest"
+    image: "predixadoption/predix-edge-node-red:1.0.10"
     networks:
       - predix-edge-broker_net
     ports:

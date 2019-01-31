@@ -36,12 +36,6 @@ app.use(express.static(path.join(__dirname, process.env['base-dir'] ? process.en
 app.use(['/home', '/operations', '/configuration', '/device'], (req, res) => {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
-app.post('/api/device-event', bodyParser.json(), function(req, res){
-  console.log("posted");
-  mqtt.handleDeviceEvent(req,res);
-  res.end("yes");
-
-});
 
 // if (node_env === 'development') {
 //   var devConfig = require('./localConfig.json')[node_env];
@@ -65,12 +59,28 @@ const sessionOptions = {
 
 // app.use(cookieParser('edge-ref-app-secret'));
 // app.use(session(sessionOptions));
-// app.use(bodyParser.json());
+//app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }));
 
 /****************************************************************************
 	SET UP EXPRESS ROUTES
 *****************************************************************************/
+
+app.post('/api/device-event', bodyParser.json(), function(req, res){
+  console.log("posted api/device-event");
+  mqtt.handleDeviceEvent(req,res);
+  res.end("yes");
+
+});
+
+app.get('/api/topics', bodyParser.json(), function(req, res){
+  mqtt.getTopics(req,res);
+});
+
+app.post('/api/topic', bodyParser.json(), function(req, res){
+  console.log("posted api/topic");
+  mqtt.postTopic(req, res);
+});
 
 // if (!config.isUaaConfigured()) {
 //   // mock UAA routes
@@ -132,6 +142,7 @@ SET UP MOCK API ROUTES
 app.get('/favicon.ico', function (req, res) {
 	res.send('favicon.ico');
 });
+
 
 // app.get('/config', function(req, res) {
 //   let title = "Predix WebApp Starter";

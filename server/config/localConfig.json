@@ -1,5 +1,4 @@
 {
   "mqttHost": "mqtt://127.0.0.1",
-  "cloudUrl": "https://apmprod.app.aws-usw02-pr.predix.io/builder-rel"
-
+  "operationsTopic": "app_data"
 }

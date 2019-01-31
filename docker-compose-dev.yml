@@ -10,7 +10,6 @@ services:
       - predix-edge-broker_net
     ports:
       - 4334:4334
-    #entrypoint: ["sh", "-c", "sleep 500000"]
   opcua:
     image: "dtr.predix.io/predix-edge/protocol-adapter-opcua:amd64-1.1.0"
     environment:
@@ -39,17 +38,6 @@ services:
       - predix-edge-broker_net
     ports:
       - 1880:1880
-  predix-edge-ref-app:
-    image: "predixadoption/predix-edge-ref-app:latest"
-    volumes:
-      - ./config:/config
-      - ./data:/data
-      - ./data:/edge-agent
-    networks:
-      - predix-edge-broker_net
-    ports:
-      - 5000:5000
-      - 9002:9002
 networks:
   predix-edge-broker_net:
     external: true

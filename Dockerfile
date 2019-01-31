@@ -4,7 +4,8 @@ FROM node:10-alpine
 LABEL maintainer="Predix Builder Relations"
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixadoption"
-LABEL version="1.0.16"
+LABEL repo="predix-edge-ref-app"
+LABEL version="1.0.18"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
@@ -14,13 +15,12 @@ RUN npm config set strict-ssl false && \
 
 WORKDIR /usr/src/edge-ref-app
 
-COPY config ./config
-COPY data ./data
+#COPY config ./config
+#COPY data ./data
 COPY gulp_tasks ./gulp_tasks
 COPY server ./server
 COPY src ./src
 COPY images ./images
-# COPY test ./test
 COPY bower.json gulpfile.js package*.json polymer.json ./
 
 RUN node -v

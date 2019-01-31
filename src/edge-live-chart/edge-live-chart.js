@@ -25,6 +25,14 @@ class EdgeLiveChart extends Polymer.Element {
           }
         }
       },
+      topics: {
+        type: Array,
+        observer: '_topicItemsChanged'
+      },
+      selectedTopic: {
+        type: String,
+        observer: '_selectedTopicChanged'
+      },
       tags: {
         type: Array,
         value: []
@@ -120,6 +128,23 @@ class EdgeLiveChart extends Polymer.Element {
   _closeDataSocket() {
     if (this._socket && this._socket.readyState !== WebSocket.CLOSED) {
       this._socket.close();
+    }
+  }
+
+  _topicItemsChanged(newVal, oldVal) {
+    if ( newVal.includes("app_data"))
+      this.selectedTopic = "app_data";
+  }
+
+  _selectedTopicChanged(newVal, oldVal) {
+    console.log("_selectedTopicChanged");
+    console.log(newVal);
+    if ( !newVal )
+      return
+    else {
+      this.$.ironPostTopic.body = '["' + newVal + '"]';
+      console.log(this.$.ironPostTopic.body)
+      this.$.ironPostTopic.generateRequest();
     }
   }
 

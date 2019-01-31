@@ -21,7 +21,7 @@
         <div class="personas1">
             <img src="images/edge-persona-icons-field-service-engineer.png" class="persona-img">
             <div class="persona-name">Brian</div>
-            <div class="persona-title">Embedded Systems Engineer</div>
+            <div class="persona-title">Process Control Engineer</div>
         </div>
         <div class="personas2">
             <img src="images/edge-persona-icons-service-operations-engineer.png" class="persona-img">
@@ -42,9 +42,27 @@
         </px-kpi-list>
       </div>
       <div id="chart">
-        <p>Time Series tags:
-        <span style="display:inline-block"><px-dropdown id="tagDropdown" items="{{tags}}" selected="{{selectedTag}}" select-by="val"></px-dropdown></span>
-      </p>
+        <p>Topics:
+        <span ><px-dropdown id="topicDropdown" items="{{topics}}" selected="{{selectedTopic}}" select-by="val"></px-dropdown></span>
+        <iron-ajax id="ironGetTopics"
+          auto
+          method="GET"
+          content-type="application/json"
+          url="/api/topics"
+          handle-as="json"
+          last-response="{{topics}}"
+          >
+        </iron-ajax>
+        <iron-ajax id="ironPostTopic"
+          method="post"
+          content-type="application/json"
+          url="/api/topic"
+          handle-as="json"
+          debounce-duration="300">
+        </iron-ajax>
+        <p>Time Series Tags:
+          <span ><px-dropdown id="tagDropdown" items="{{tags}}" selected="{{selectedTag}}" select-by="val"></px-dropdown></span>
+        </p>
         <px-vis-timeseries width="500" height="400" id="tsChart" chart-data="{{tsChartData}}"
             series-config="{{tsSeriesConfig}}"
             hide-register
