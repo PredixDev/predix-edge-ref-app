@@ -1,9 +1,9 @@
 #!/bin/bash
 HOME_DIR=$(pwd)
 set -e
-LOGIN=1
+LOGIN=0
 RUN_QUICKSTART=1
-SKIP_PREDIX_SERVICES="false"
+SKIP_PREDIX_SERVICES="true"
 function local_read_args() {
   while (( "$#" )); do
   opt="$1"
@@ -17,10 +17,6 @@ function local_read_args() {
       BRANCH="$2"
       QUICKSTART_ARGS+=" $1 $2"
       shift
-    ;;
-    --skip-predix-services)
-      SKIP_PREDIX_SERVICES="true"
-      LOGIN=0
     ;;
     -o|--override)
       QUICKSTART_ARGS=" $SCRIPT"
@@ -50,17 +46,17 @@ PRINT_USAGE=0
 SKIP_SETUP=false
 
 REPO_NAME=predix-edge-ref-app
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.3.0/izon2.sh"
 SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
-QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --upload-application --create-configuration --create-device -edge-app-name $REPO_NAME -asset-name Compressor-CMMS-Compressor-2018 $SCRIPT"
+QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --create-configuration -edge-app-name $REPO_NAME --skip-predix-services $SCRIPT"
 VERSION_JSON="version.json"
 PREDIX_SCRIPTS=predix-scripts
 
-SCRIPT_NAME="quickstart-edge-ref-app-em.sh"
+SCRIPT_NAME="quickstart-package.sh"
 GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
 APP_DIR="edge-ref-app-local"
 APP_NAME="Predix Edge Reference App - edge manager"
-TOOLS="Cloud Foundry CLI, Docker, Git, JQ, Node.js, Predix CLI, YQ"
+TOOLS="Docker, Git, JQ, YQ"
 TOOLS_SWITCHES="--cf --docker --git --jq --nodejs --predixcli --yq"
 TIMESERIES_CHART_ONLY="true"
 
@@ -146,5 +142,5 @@ echo "Once the deployment of application and configuration is successfull, Open 
 
 cat $SUMMARY_TEXTFILE
 __append_new_line_log "" "$logDir"
-__append_new_line_log "Successfully completed Edge Ref App installation!" "$quickstartLogDir"
+__append_new_line_log "Successfully completed Edge Ref App packaging!" "$quickstartLogDir"
 __append_new_line_log "" "$logDir"

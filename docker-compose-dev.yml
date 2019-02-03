@@ -30,7 +30,7 @@ services:
     networks:
       - predix-edge-broker_net
   predix-edge-node-red:
-    image: "predixadoption/predix-edge-node-red:1.0.10"
+    image: "predixadoption/predix-edge-node-red:1.0.16"
     volumes:
       - ./config:/config
       - ./data:/data

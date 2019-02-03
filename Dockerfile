@@ -5,8 +5,7 @@ LABEL maintainer="Predix Builder Relations"
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixadoption"
 LABEL repo="predix-edge-ref-app"
-LABEL dockerImage="predixadoption/predix-edge-ref-app"
-LABEL version="1.0.18"
+LABEL version="1.0.32"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
@@ -17,7 +16,8 @@ RUN npm config set strict-ssl false && \
 WORKDIR /usr/src/edge-ref-app
 
 #COPY config ./config
-#COPY data ./data
+RUN mkdir -p ./data
+COPY data/compressor-specs.json ./data
 COPY gulp_tasks ./gulp_tasks
 COPY server ./server
 COPY src ./src
@@ -47,8 +47,6 @@ RUN rm -rf ./gulp_tasks
 RUN rm -rf ./server
 RUN rm -rf ./src
 RUN rm -rf ./images
-
-#RUN rm -rf ./node_modules
 
 COPY ./scripts/entry_point.sh .
 

@@ -112,7 +112,7 @@ chmod -R 777 data
 
 Now start the edge-ref-app containers
 ```sh
-docker stack deploy edge-ref-app -c docker-compose-local.yml
+docker stack deploy --resolve-image never -c docker-compose-local.yml edge-ref-app
 ```
 
 ### Validate they started

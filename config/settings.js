@@ -102,7 +102,6 @@ module.exports = {
     // following property can be used to identify a directory of static content
     // that should be served at http://localhost:1880/.
     //httpStatic: '/home/nol/node-red-static/',
-    httpStatic: '/data',
 
     // The maximum size of HTTP request that will be accepted by the runtime api.
     // Default: 5mb
@@ -205,7 +204,8 @@ module.exports = {
     //    context.global.os
 
     functionGlobalContext: {
-        // os:require('os'),
+        os:require('os'),
+        process:process
         // jfive:require("johnny-five"),
         // j5board:require("johnny-five").Board({repl:false})
     },

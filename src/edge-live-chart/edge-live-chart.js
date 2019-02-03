@@ -103,7 +103,7 @@ class EdgeLiveChart extends Polymer.Element {
 
   _fetchLiveStreams() {
     try {
-      const socket = new WebSocket('ws://127.0.0.1:9002/livestreams')
+      const socket = new WebSocket('ws://' + window.location.hostname + ':9002/livestreams')
 
       socket.onerror = (error) => {
         console.error('WebSocket Error: ', error);
@@ -153,7 +153,7 @@ class EdgeLiveChart extends Polymer.Element {
     this.tsChartData = [];
     if (!newVal) return;
     try {
-      this._socket = new WebSocket('ws://127.0.0.1:9002' + newVal);
+      this._socket = new WebSocket('ws://' + window.location.hostname + ':9002' + newVal);
 
       this._socket.onmessage = function(evt) {
         // console.log('message from WebSocket: ' + evt.data);

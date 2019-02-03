@@ -1,0 +1,6 @@
+config-cloud-gateway.json
+config-opcua.json
+config-simulator.json
+#if you need a specific settings.js remove this and change the script that creates the config.zip
+settings.js
+flows.json
