@@ -52,7 +52,7 @@ SKIP_SETUP=false
 REPO_NAME=predix-edge-ref-app
 IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
 SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
-QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --upload-application --create-configuration --create-device -edge-app-name $REPO_NAME -asset-name Compressor-CMMS-Compressor-2018 $SCRIPT"
+QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --upload-application --upload-configuration --create-device -edge-app-name $REPO_NAME -asset-name Compressor-CMMS-Compressor-2018 $SCRIPT"
 VERSION_JSON="version.json"
 PREDIX_SCRIPTS=predix-scripts
 
