@@ -2,7 +2,7 @@ version: "3.0"
 #This file combines all the edge services and our services so that it can be deployed as a unit
 services:
   opcua-simulator:
-    image: "predixadoption/predix-edge-opcua-simulator:1.0.5"
+    image: "predixadoption/predix-edge-opcua-simulator:1.0.6"
     hostname: "opcua-simulator"
     volumes:
       - ./config:/config
@@ -31,7 +31,7 @@ services:
     networks:
       - predix-edge-broker_net
   predix-edge-node-red:
-    image: "predixadoption/predix-edge-node-red:1.0.16"
+    image: "predixadoption/predix-edge-node-red:1.0.18"
     volumes:
       - ./config:/config
       - ./data:/data
@@ -40,7 +40,7 @@ services:
     ports:
       - 1880:1880
   predix-edge-ref-app:
-    image: "predixadoption/predix-edge-ref-app:1.0.34"
+    image: "predixadoption/predix-edge-ref-app:1.0.36"
     volumes:
       - ./config:/config
       - ./data:/data
@@ -50,6 +50,7 @@ services:
     ports:
       - 5000:5000
       - 9002:9002
+    #entrypoint: ["sh", "-c", "sleep 500000"]
 networks:
   predix-edge-broker_net:
     external: true

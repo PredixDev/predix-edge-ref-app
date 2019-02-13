@@ -277,16 +277,16 @@ Now log in to the Docker Hub. Create a dockerhub account if you do not have one.
 docker login -u <username> -p <password>
 ```
 
-Build predix-edge-ref-app docker image using proxy. Your Docker Organization is usually your username.
+Build predix-edge-ref-app docker image using proxy. Change 'predixadoption' to your Docker Organization which is usually your username.
 
 ```sh
-docker build --no-cache -t <Docker Organization>/predix-edge-ref-app:latest --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy .
+docker build --no-cache -t predixadoption/predix-edge-ref-app:latest --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy .
 ```
 
-Build predix-edge-ref-app docker image without proxy.
+Build predix-edge-ref-app docker image without proxy. Change 'predixadoption' to your Docker Organization which is usually your username.
 
 ```sh
-docker build --no-cache -t <Docker Organization>/predix-edge-ref-app:latest .
+docker build --no-cache -t predixadoption/predix-edge-ref-app:latest .
 ```
 
 Now Push the docker image to the Docker Hub.

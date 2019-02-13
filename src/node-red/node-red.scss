@@ -1,3 +1,6 @@
+
+@import 'px-forms-design/_base.forms.scss';
+
 // Settings
 
 // Tools
@@ -11,6 +14,8 @@
 // Objects
 $inuit-enable-btn--small : true;
 $inuit-enable-btn--enabled : true;
+$inuit-enable-btn--tertiary : true;
+$inuit-enable-btn--disabled : true;
 @import "px-buttons-design/_objects.buttons.scss";
 
 // Component
@@ -111,6 +116,23 @@ $inuit-enable-btn--enabled : true;
   float: top;
   width: 100%;
 }
+
+.download-button-container {
+  font-size: .75em;
+  float: right;
+}
+
+.download-modal-font-size {
+  font-size: .75em;
+}
+
+.download-modal-body {
+  padding: 1em;
+}
+.download-modal-header {
+  padding: 1em 1em 0 .75em;
+}
+
 
 [slot="markdown-html"]
 a:link {

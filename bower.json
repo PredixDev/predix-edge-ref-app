@@ -19,10 +19,12 @@
     "px-panel": "^1.1.1",
     "iron-ajax": "^2.1.3",
     "px-alert-message": "^1.3.3",
-    "px-kpi": "^5.0.0"
+    "px-kpi": "^5.0.0",
+    "px-modal": "^3.3.5"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
+    "px-forms-design": "^2.1.2"
   }
 }

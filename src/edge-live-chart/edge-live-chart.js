@@ -12,6 +12,7 @@ class EdgeLiveChart extends Polymer.Element {
           // TODO
           return {
             "y0": {
+                "type": "both",  //line or scatter or both
                 "name": "y0",
                 "x": "timeStamp",
                 "y": "y0",

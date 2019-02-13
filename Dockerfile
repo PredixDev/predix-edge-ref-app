@@ -5,11 +5,12 @@ LABEL maintainer="Predix Builder Relations"
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixadoption"
 LABEL repo="predix-edge-ref-app"
-LABEL version="1.0.34"
+LABEL version="1.0.36"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
-RUN apk add git
+RUN apk add git zip && \
+    rm -f /var/cache/apk/*
 RUN npm config set strict-ssl false && \
     npm install -g bower
 
@@ -17,12 +18,15 @@ WORKDIR /usr/src/edge-ref-app
 
 #COPY config ./config
 RUN mkdir -p ./data
+RUN mkdir -p ./scripts
+
 COPY data/compressor-specs.json ./data
 COPY gulp_tasks ./gulp_tasks
 COPY server ./server
 COPY src ./src
 COPY images ./images
 COPY bower.json gulpfile.js package*.json polymer.json ./
+COPY scripts/package-config.sh scripts
 
 RUN node -v
 

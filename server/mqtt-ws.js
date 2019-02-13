@@ -17,7 +17,11 @@ client.on('message', (topic, message) => {
   if ( !topics.includes(topic) )
     topics[topics.length] = topic;
   if(topic === topicToMonitor) {
-    const obj = JSON.parse(message.toString());
+    var msg = message.toString();
+    const obj = JSON.parse(msg);
+    // if ( msg.includes('dischargepressure'))
+    //   console.log(obj);
+
     const path = '/livestream/' + obj.body[0].name;
     const wss = ws.wsMap.get(path);
     if ( wss == null ) {

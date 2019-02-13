@@ -1,6 +1,6 @@
 {
   "name": "edge-ref-app",
-  "version": "1.0.34",
+  "version": "1.0.36",
   "description": "Predix Edge Reference app with node-red",
   "main": "server/app.js",
   "directories": {
@@ -24,6 +24,7 @@
     "express": "^4.16.3",
     "mqtt": "^2.18.3",
     "natives": "^1.1.6",
+    "rimraf": "^2.6.3",
     "ws": "^6.0.0"
   },
   "devDependencies": {

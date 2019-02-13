@@ -9,11 +9,9 @@ var path = require('path');
 var mqtt = require('./mqtt-ws.js');
 var bodyParser = require('body-parser')
 const exec = require('child_process').exec;
-const execSync = require('child_process').execSync;
 var spawn = require('child_process').spawn;
 var fs = require('fs');
-const rimraf = require('rimraf');
-
+// var directory = require('serve-index');
 
 // var cookieParser = require('cookie-parser'); // used for session cookie
 // var bodyParser = require('body-parser');
@@ -87,69 +85,42 @@ app.post('/api/topic', bodyParser.json(), function(req, res){
   mqtt.postTopic(req, res);
 });
 
+//shows the directory structure, during testing with Edge it sometimes is difficult to see the mistake you made,
+//turn this off for production.
+// app.use('/api/dir', express.static('.'), directory('.', {'icons': true}))
+//
+// app.use('/api/ls-l', function(req, res) { var url=req.originalUrl; url=url.split('ls-l/')[1]; child=exec('ls -l '.concat(url)); child.stdout.on('data', function(chunk) {
+//   res.send("" + chunk); })
+// });
+
 var config;
-app.get('/api/config/*', function (req, res) {
-  const filePrefix = req.originalUrl.substring('/api/config/'.length);
-  if (config) {
-    res.send("deploy currently running, can only config one at a time");
-  } else {
-    let date = new Date().getTime();
-    console.log('create node-red config at ' + date);
-    config = date;
-    var cwd = path.resolve(process.cwd());
-    console.log('cwd=' + cwd);
-    var child = exec(cwd + '/scripts/package-config.sh ' + filePrefix , function(){
-      console.log('after file exec');
-      var fileDir = "/data/" + filePrefix
-      var file = fileDir + "/" + filePrefix + "-config.zip";
-      console.log("file=" + file);
-      if (!fs.existsSync(file)) {
-        fileDir = "data/" + filePrefix
-        file = fileDir + "/" + filePrefix + "-config.zip";
-        console.log("file=" + file);
-      }
-      fileDownload(file, fileDir, req, res);
-    });
+  app.get('/api/config', function(req, res) {
+    if ( config ) {
+      res.send("deploy currently running, can only config one at a time");
+    }
+    else {
+      let date = new Date().getTime();
+      console.log('create node-red config at ' + date);
+      config = date;
+      var child = exec('scripts/package-config.sh test');
 
-    child.stdout.on('data', function (chunk) {
+      child.stdout.on('data', function(chunk) {
         console.log("" + chunk);
-    });
+      });
 
-    child.stderr.on('data', function (chunk) {
+      child.stderr.on('data', function(chunk) {
         console.log("\n" + chunk);
-    });
+      });
 
-    child.on('close', (code) => {
+      child.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
         config = undefined;
-    });
-  }
-});
+      });
 
-function fileDownload(file, fileDir, req, res) {
-  fs.access(file, fs.constants.F_OK, (err) => {
-      console.log(`${file} ${err ? 'does not exist' : 'exists'}`);
-      if (err) {
-        res.send("File does not exist" + err);
-      }
-      else {
-        res.download(file, function (err) {
-          if (err) {
-              console.log('error deleting the file' + file);
-          } else {
-            rimraf(fileDir, function (err) {
-                if (err) throw err;
-                console.log(fileDir + ' was deleted');
-            });
-            fs.unlink(file, (err) => {
-                if (err) throw err;
-                console.log(file + ' was deleted');
-            });
-          }
-        });
-      }
+      res.send("initiated config request");
+    }
+
   });
-}
 
   app.get('/api/env/download', function (req, res) {
     if ( fs.existsSync("/config/env") )
@@ -229,16 +200,6 @@ app.get('/favicon.ico', function (req, res) {
 	res.send('favicon.ico');
 });
 
-
-// app.get('/config', function(req, res) {
-//   let title = "Predix WebApp Starter";
-//   if (config.isAssetConfigured()) {
-//     title = "RMD Reference App";
-//   }
-//   console.log();
-//   res.send({wsUrl: config.websocketServerURL, appHeader: title, dataExchangeEnabled: config.isDataExchangeConfigured(),
-//       timeSeriesOnly: config.timeSeriesOnly == "true" ? true : false});
-// });
 
 // Sample route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If

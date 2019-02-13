@@ -3,6 +3,7 @@
 <link rel="import" href="/bower_components/px-panel/px-panel.html"/>
 <link rel="import" href="node-red-styles.html"/>
 <link rel="import" href="../edge-app/edge-app-personas-styles.html">
+<link rel="import" href="/bower_components/px-modal/px-modal.html"/>
 
 <dom-module id="node-red">
   <template>
@@ -31,7 +32,37 @@
 
     <div id="design">
       <div id="toggleRow">
-        <div id="tutorialToggle"><span>Configuration Steps &nbsp;</span> <px-toggle id="toggle" size="medium" ></px-toggle></div>
+        <div id="tutorialToggle">
+          <span>Configuration Steps &nbsp;</span>
+          <px-toggle id="toggle" size="medium" ></px-toggle>
+        </div>
+        <div>
+          <px-modal open-trigger="[[downloadConfigTrigger]]">
+            <div slot="header" class="download-modal-header">Download Configuration</div>
+            <div slot="body" class="download-modal-font-size download-modal-body">
+              <label for="configFileName" class="">Config Name</label>
+              <input id="configFileName"
+                     placeholder="NAME. . ."
+                     class="text-input input--regular"
+                     type="text"
+                     value="{{nameOfConfigFile::change}}"
+                     on-input="handelDownloadInputField">
+              <label for="configFileName" class="">File will be: {name}-config.zip</label>
+            </div>
+            <button slot="reject-trigger" class="btn btn--tertiary download-modal-font-size">Cancel</button>
+            <div slot="accept-trigger">
+              <button id="downloadConfig" class$="{{downloadConfigButtonClasses}}">Download Config</button>
+            </div>
+          </px-modal>
+          <div class="download-button-container">
+            <px-modal-trigger trigger='{{downloadConfigTrigger}}'>
+              <button class='btn btn--tertiary'>
+                Download Config
+              </button>
+            </px-modal-trigger>
+          </div>
+        </div>
+
         <div id="architecture">
           <div id="architectureLabel">See Architecture</div>
           <div><img id="architectureImage" src="images/edge-ref-app-large.png"></div>
@@ -69,8 +100,8 @@
           </px-panel>
         </div>
         <div id="tutorialNextFrame">
-          <button id="tutorialPrev" class="btn btn--large btn--disabled">Prev</button>
-          <button id="tutorialNext" class="btn btn--large btn--disabled">Next</button>
+          <button id="tutorialPrev" class="btn btn--large btn--enabled">Prev</button>
+          <button id="tutorialNext" class="btn btn--large btn--enabled">Next</button>
         </div>
       </div>
       <div id="nodeRed">
@@ -110,7 +141,16 @@
           handleToggle: Function,
           handleMouseOver: Function,
           handleMouseLeave: Function,
-          handleTutorialNext: Function
+          handleTutorialNext: Function,
+          handelDownloadConfig: Function,
+          handelDownloadInputField: Function,
+          nameOfConfigFile: {
+              type: String
+          },
+            downloadConfigButtonClasses: {
+              type: String,
+                value:"btn download-modal-font-size btn--enabled"
+            }
         }
       }
       constructor() {
@@ -123,6 +163,8 @@
         this.handleTutorialNext = this.handleTutorialNextFunc.bind(this);
         this.handleArchitecture = this.handleArchitectureFunc.bind(this);
         this.handleMouseLeave = this.handleMouseLeaveFunc.bind(this);
+        this.handelDownloadConfig = this.handelDownloadConfigFunc.bind(this);
+        this.handelDownloadInputField = this.handelDownloadInputFieldFunc.bind(this);
       }
       connectedCallback() {
         //a place to put some console.logs - called near startup
@@ -136,6 +178,7 @@
         this.$.tutorialPrev.addEventListener('click', this.handleTutorialPrev);
         this.$.tutorialNext.addEventListener('click', this.handleTutorialNext);
         this.$.architectureImage.addEventListener('click', this.handleArchitecture);
+        this.$.downloadConfig.addEventListener('click', this.handelDownloadConfig);
         this.nodeTutorial=[this.$.nodeTutorial1,this.$.nodeTutorial2,this.$.nodeTutorial3,this.$.nodeTutorial4,this.$.nodeTutorial5,this.$.nodeTutorial6];
         this.currentNodeTutorial = this.$.nodeTutorial1;
         this.currentNodeTutorialIndex = 0;
@@ -151,6 +194,7 @@
         this.$.tutorialNext.removeEventListener('click', this.handleTutorialNext);
         this.$.architectureImage.removeEventListener('mouseover', this.handleMouseOver);
         this.$.architectureImage.removeEventListener('mouseleave', this.handleMouseLeave);
+        this.$.downloadConfig.removeEventListener('click', this.handelDownloadConfig);
       }
       handleToggleFunc() {
         console.log("handleToggle");
@@ -241,6 +285,21 @@
           _self.$.iFrame.style.display = "block";
         }, 600);
       }
+
+        handelDownloadConfigFunc() {
+            console.log('in handelDownloadConfigFunc', this.nameOfConfigFile);
+            window.open("/api/config/" + this.nameOfConfigFile);
+        }
+
+        handelDownloadInputFieldFunc(env) {
+            console.log("inside handelDownloadInputFieldFunc", env.path[0].value.length);
+            var contentLenght = env.path[0].value.length;
+            if (contentLenght !== 0) {
+                this.downloadConfigButtonClasses = "btn download-modal-font-size"
+            } else {
+                this.downloadConfigButtonClasses = "btn download-modal-font-size btn--disabled"
+            }
+        }
       ready() {
         super.ready();
         // console.log("node-red ready")

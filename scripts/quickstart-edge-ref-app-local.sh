@@ -147,6 +147,9 @@ if [[ "$BUILD_APP" == "true" ]]; then
   cd $PREDIX_SCRIPTS/$REPO_NAME
   echo "docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg http_proxy --build-arg https_proxy -t predixadoption/predix-edge-ref-app:latest ."
   docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg http_proxy --build-arg https_proxy -t predixadoption/predix-edge-ref-app:latest .
+  version=$(jq -r .version version.json)
+  echo "version : $version"
+  docker tag predixadoption/predix-edge-ref-app:latest predixadoption/predix-edge-ref-app:${version}
   cd ../..
 fi
 echo "quickstart_args=$QUICKSTART_ARGS"

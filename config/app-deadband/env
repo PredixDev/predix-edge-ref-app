@@ -3,6 +3,6 @@
 #export MYENVVAR=VALUE
 
 export HIGHHIGH="4"
-export HIGH="3.5"
-export LOW="2.5"
-export LOWLOW="2"
+export HIGH="3.0"
+export LOW="2.0"
+export LOWLOW="1.5"
