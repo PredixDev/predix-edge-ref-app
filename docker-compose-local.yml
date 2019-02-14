@@ -50,7 +50,6 @@ services:
     ports:
       - 5000:5000
       - 9002:9002
-    #entrypoint: ["sh", "-c", "sleep 500000"]
 networks:
   predix-edge-broker_net:
     external: true
