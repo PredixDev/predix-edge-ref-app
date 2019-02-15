@@ -30,7 +30,7 @@ services:
     ports:
       - 1880:1880
   predix-edge-ref-app:
-    image: "predixadoption/predix-edge-ref-app:1.0.36"
+    image: "predixadoption/predix-edge-ref-app:1.0.38"
     networks:
       - predix-edge-broker_net
     ports:
