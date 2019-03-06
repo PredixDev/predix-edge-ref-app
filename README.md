@@ -73,8 +73,8 @@ Load each one into your local Docker repository
 
 Get the edge-node-red and edge-ref-app ui from the Docker Repository
 ```sh
- docker pull hub.docker.com/predixadoption/predix-edge-node-red:latest
- docker pull hub.docker.com/predixadoption/predix-edge-ref-app:latest
+ docker pull hub.docker.com/predixedge/predix-edge-node-red:<latest-tag-version-here>
+ docker pull hub.docker.com/predixedge/predix-edge-ref-app:<latest-tag-version-here>
 ```
 
 ### Build if needed (say you made a change)
@@ -93,7 +93,7 @@ If you are behind a corporate proxy server, use the proxy switches or remove the
 Change the version in the command below to match
 
 ```sh
-docker build --no-cache --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy -t predixadoption/predix-edge-ref-app:latest .
+docker build --no-cache --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy -t predixedge/predix-edge-ref-app:latest .
 ```
 
 ### Start the containers
@@ -241,7 +241,7 @@ The [tutorial](https://www.predix.io/resources/tutorials/journey.html#2593) expl
 For experienced developers, here are the commands to save the app as a tar.
 
 ```bash
-docker save -o images.tar predixadoption/predix-edge-ref-app:latest predixadoption/predix-edge-opcua-simulator:latest dtr.predix.io/predix-edge/protocol-adapter-opcua:amd64-latest dtr.predix.io/predix-edge/cloud-gateway:amd64-latest
+docker save -o images.tar predixedge/predix-edge-ref-app:latest predixedge/predix-edge-opcua-simulator:latest dtr.predix.io/predix-edge/protocol-adapter-opcua:amd64-latest dtr.predix.io/predix-edge/cloud-gateway:amd64-latest
 ```
 
 ```bash
@@ -277,16 +277,16 @@ Now log in to the Docker Hub. Create a dockerhub account if you do not have one.
 docker login -u <username> -p <password>
 ```
 
-Build predix-edge-ref-app docker image using proxy. Change 'predixadoption' to your Docker Organization which is usually your username.
+Build predix-edge-ref-app docker image using proxy. Change 'predixedge' to your Docker Organization which is usually your username.
 
 ```sh
-docker build --no-cache -t predixadoption/predix-edge-ref-app:latest --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy .
+docker build --no-cache -t predixedge/predix-edge-ref-app:latest --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy .
 ```
 
-Build predix-edge-ref-app docker image without proxy. Change 'predixadoption' to your Docker Organization which is usually your username.
+Build predix-edge-ref-app docker image without proxy. Change 'predixedge' to your Docker Organization which is usually your username.
 
 ```sh
-docker build --no-cache -t predixadoption/predix-edge-ref-app:latest .
+docker build --no-cache -t predixedge/predix-edge-ref-app:latest .
 ```
 
 Now Push the docker image to the Docker Hub.

@@ -54,15 +54,17 @@ BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
 
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/develop/izon2.sh"
 #ASSET_MODEL="-amrmd predix-ui-seed/server/sample-data/predix-asset/asset-model-metadata.json predix-ui-seed/server/sample-data/predix-asset/asset-model.json"
 #SCRIPT="-script build-basic-app.sh -script-readargs build-basic-app-readargs.sh"
 SCRIPT="-script edge-starter-deploy.sh -script-readargs edge-starter-deploy-readargs.sh"
 VERSION_JSON="version.json"
+PREDIX_SCRIPTS_ORG="adoption"
 PREDIX_SCRIPTS="predix-scripts"
+GITHUB_RAW="https://raw.githubusercontent.com"
+GITHUB_ORG="predixedgeapplicationservices"
 REPO_NAME="predix-edge-ref-app"
 SCRIPT_NAME="quickstart-edge-ref-app-local.sh"
-GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
 APP_DIR="edge-ref-app-local"
 APP_NAME="Predix Edge Reference App - local"
 
@@ -75,8 +77,8 @@ TIMESERIES_CHART_ONLY="true"
 local_read_args $@
 
 #variables after processing switches
-SCRIPT_LOC="$GITHUB_RAW/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
-VERSION_JSON_URL="$GITHUB_RAW/$REPO_NAME/$BRANCH/version.json"
+SCRIPT_LOC="$GITHUB_RAW/$GITHUB_ORG/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
+VERSION_JSON_URL="$GITHUB_RAW/$GITHUB_ORG/$REPO_NAME/$BRANCH/version.json"
 
 if [[ "$SKIP_PREDIX_SERVICES" == "false" ]]; then
   QUICKSTART_ARGS="$QUICKSTART_ARGS -uaa -ts -psts -app-name $REPO_NAME --run-edge-app -p $SCRIPT"
@@ -120,7 +122,7 @@ function init() {
   fi
 
   getVersionFile
-  getLocalSetupFuncs $GITHUB_RAW
+  getLocalSetupFuncs $GITHUB_RAW $PREDIX_SCRIPTS_ORG
 }
 
 if [[ $PRINT_USAGE == 1 ]]; then
@@ -145,11 +147,10 @@ docker images
 
 if [[ "$BUILD_APP" == "true" ]]; then
   cd $PREDIX_SCRIPTS/$REPO_NAME
-  echo "docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg http_proxy --build-arg https_proxy -t predixadoption/predix-edge-ref-app:latest ."
-  docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg http_proxy --build-arg https_proxy -t predixadoption/predix-edge-ref-app:latest .
+  docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg http_proxy --build-arg https_proxy -t predixedge/predix-edge-ref-app:latest .
   version=$(jq -r .version version.json)
   echo "version : $version"
-  docker tag predixadoption/predix-edge-ref-app:latest predixadoption/predix-edge-ref-app:${version}
+  docker tag predixedge/predix-edge-ref-app:latest predixedge/predix-edge-ref-app:${version}
   cd ../..
 fi
 echo "quickstart_args=$QUICKSTART_ARGS"

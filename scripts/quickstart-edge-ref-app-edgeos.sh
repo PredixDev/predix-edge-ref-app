@@ -58,9 +58,10 @@ IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
 SCRIPT="-script edge-starter-deploy.sh -script-readargs edge-starter-deploy-readargs.sh"
 VERSION_JSON="version.json"
 PREDIX_SCRIPTS=predix-scripts
-REPO_NAME=predix-edge-ref-app
 SCRIPT_NAME="quickstart-edge-ref-app-edgeos.sh"
-GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
+GITHUB_RAW="https://raw.githubusercontent.com"
+GITHUB_ORG="adoption"
+REPO_NAME="predix-edge-ref-app"
 APP_DIR="edge-ref-app-local"
 APP_NAME="Predix Edge Reference App - predix edgeos"
 TOOLS="Docker, VMWare Fusion"
@@ -72,8 +73,8 @@ TIMESERIES_CHART_ONLY="true"
 local_read_args $@
 
 #variables after processing switches
-SCRIPT_LOC="$GITHUB_RAW/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
-VERSION_JSON_URL="$GITHUB_RAW/$REPO_NAME/$BRANCH/version.json"
+SCRIPT_LOC="$GITHUB_RAW/$GITHUB_ORG/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
+VERSION_JSON_URL="$GITHUB_RAW/$GITHUB_ORG/$REPO_NAME/$BRANCH/version.json"
 
 echo "SKIP_PREDIX_SERVICES : $SKIP_PREDIX_SERVICES"
 if [[ "$SKIP_PREDIX_SERVICES" == "true" ]]; then
@@ -119,7 +120,7 @@ function init() {
   getUsingCurl $SCRIPT_LOC
   chmod 755 $SCRIPT_NAME;
   getVersionFile
-  getLocalSetupFuncs $GITHUB_RAW
+  getLocalSetupFuncs $GITHUB_RAW $GITHUB_ORG
 }
 
 if [[ $PRINT_USAGE == 1 ]]; then

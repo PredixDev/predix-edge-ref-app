@@ -45,15 +45,17 @@ BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
 
-REPO_NAME=predix-edge-ref-app
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.3.0/izon2.sh"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.4.0/izon2.sh"
 SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
 QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --create-configuration -edge-app-name $REPO_NAME --skip-predix-services $SCRIPT"
 VERSION_JSON="version.json"
+PREDIX_SCRIPTS_ORG="adotion"
 PREDIX_SCRIPTS=predix-scripts
 
 SCRIPT_NAME="quickstart-package.sh"
-GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
+GITHUB_RAW="https://raw.githubusercontent.com"
+GITHUB_ORG="adoption"
+REPO_NAME="predix-edge-ref-app"
 APP_DIR="edge-ref-app-local"
 APP_NAME="Predix Edge Reference App - edge manager"
 TOOLS="Docker, Git, JQ, YQ"
@@ -64,8 +66,8 @@ TIMESERIES_CHART_ONLY="true"
 local_read_args $@
 
 #variables after processing switches
-SCRIPT_LOC="$GITHUB_RAW/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
-VERSION_JSON_URL=https://raw.githubusercontent.com/PredixDev/$REPO_NAME/$BRANCH/version.json
+SCRIPT_LOC="$GITHUB_RAW/$GITHUB_ORG/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
+VERSION_JSON_URL="$GITHUB_RAW/$GITHUB_ORG/$REPO_NAME/$BRANCH/version.json"
 
 
 #if [[ "$SKIP_PREDIX_SERVICES" == "false" ]]; then
@@ -106,7 +108,7 @@ function init() {
   eval "$(curl -s -L $IZON_SH)"
   #curl -O $SCRIPT_LOC; chmod 755 $SCRIPT_NAME;
   getVersionFile
-  getLocalSetupFuncs $GITHUB_RAW
+  getLocalSetupFuncs $GITHUB_RAW $PREDIX_SCRIPTS_ORG
 }
 
 if [[ $PRINT_USAGE == 1 ]]; then

@@ -2,7 +2,7 @@ version: "3.0"
 #This file combines all the edge services and our services so that it can be deployed as a unit
 services:
   opcua-simulator:
-    image: "predixadoption/predix-edge-opcua-simulator:1.0.6"
+    image: "predixedge/predix-edge-opcua-simulator:1.0.9"
     hostname: "opcua-simulator"
     volumes:
       - ./config:/config
@@ -20,7 +20,7 @@ services:
       - ./data:/data
     networks:
       - predix-edge-broker_net
-  cloud_gateway_timeseries:
+  cloud_gateway:
     image: "dtr.predix.io/predix-edge/cloud-gateway:amd64-1.1.0"
     environment:
       config: "/config/config-cloud-gateway.json"
@@ -31,7 +31,7 @@ services:
     networks:
       - predix-edge-broker_net
   predix-edge-node-red:
-    image: "predixadoption/predix-edge-node-red:1.0.18"
+    image: "predixedge/predix-edge-node-red:1.0.21"
     volumes:
       - ./config:/config
       - ./data:/data
@@ -40,7 +40,7 @@ services:
     ports:
       - 1880:1880
   predix-edge-ref-app:
-    image: "predixadoption/predix-edge-ref-app:1.0.38"
+    image: "predixedge/predix-edge-ref-app:1.0.43"
     volumes:
       - ./config:/config
       - ./data:/data
