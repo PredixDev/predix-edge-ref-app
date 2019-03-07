@@ -93,7 +93,7 @@ If you are behind a corporate proxy server, use the proxy switches or remove the
 Change the version in the command below to match
 
 ```sh
-docker build --no-cache --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy -t predixedge/predix-edge-ref-app:latest .
+docker build --no-cache --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy -t predixedge/predix-edge-ref-app:<latest-version-here> .
 ```
 
 ### Start the containers
@@ -142,7 +142,7 @@ However, if one of the containers has a bug or an environmental problem it is qu
 
 There are a few tricks you can use to solve this.
 
-### Trick #1 - add an entry_point.sh entry to the docker-compose.
+### Trick #1 - add an entrypoint.sh entry to the docker-compose.
 
 ```sh
 entrypoint: ["sh", "-c", "sleep 500000"]
@@ -280,13 +280,13 @@ docker login -u <username> -p <password>
 Build predix-edge-ref-app docker image using proxy. Change 'predixedge' to your Docker Organization which is usually your username.
 
 ```sh
-docker build --no-cache -t predixedge/predix-edge-ref-app:latest --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy .
+docker build --no-cache -t predixedge/predix-edge-ref-app:<latest-version-here> --build-arg https_proxy --build-arg no_proxy= --build-arg http_proxy .
 ```
 
 Build predix-edge-ref-app docker image without proxy. Change 'predixedge' to your Docker Organization which is usually your username.
 
 ```sh
-docker build --no-cache -t predixedge/predix-edge-ref-app:latest .
+docker build --no-cache -t predixedge/predix-edge-ref-app:<latest-version-here> .
 ```
 
 Now Push the docker image to the Docker Hub.

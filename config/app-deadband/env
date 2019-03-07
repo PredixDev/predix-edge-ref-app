@@ -1,5 +1,5 @@
 #use bash format.
-#ensure that 'source /config/env' is added to the container entry_point.sh file that needs it
+#ensure that 'source /config/env' is added to the container entrypoint.sh file that needs it
 #export MYENVVAR=VALUE
 
 export HIGHHIGH="4"

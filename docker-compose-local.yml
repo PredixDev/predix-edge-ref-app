@@ -40,7 +40,7 @@ services:
     ports:
       - 1880:1880
   predix-edge-ref-app:
-    image: "predixedge/predix-edge-ref-app:1.0.44"
+    image: "predixedge/predix-edge-ref-app:1.0.46"
     volumes:
       - ./config:/config
       - ./data:/data

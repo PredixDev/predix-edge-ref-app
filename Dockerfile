@@ -5,7 +5,7 @@ LABEL maintainer="Predix Builder Relations"
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixedge"
 LABEL repo="predix-edge-ref-app"
-LABEL version="1.0.44"
+LABEL version="1.0.46"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
@@ -52,8 +52,8 @@ RUN rm -rf ./server
 RUN rm -rf ./src
 RUN rm -rf ./images
 
-COPY ./scripts/entry_point.sh .
+COPY ./scripts/entrypoint.sh .
 
 EXPOSE 5000
 
-ENTRYPOINT ["/usr/src/edge-ref-app/entry_point.sh"]
+ENTRYPOINT ["/usr/src/edge-ref-app/entrypoint.sh"]

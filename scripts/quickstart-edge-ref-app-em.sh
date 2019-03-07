@@ -48,18 +48,19 @@ function local_read_args() {
 BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
-
-REPO_NAME=predix-edge-ref-app
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.2.0/izon2.sh"
-SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
-QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --upload-application --upload-configuration --create-device -edge-app-name $REPO_NAME -asset-name Compressor-CMMS-Compressor-2018 $SCRIPT"
+PREDIX_SCRIPTS_ORG="PredixDev"
+PREDIX_SCRIPTS="predix-scripts"
 VERSION_JSON="version.json"
-PREDIX_SCRIPTS=predix-scripts
+GITHUB_RAW="https://raw.githubusercontent.com"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.5.0/izon2.sh"
 
+GITHUB_ORG="PredixDev"
+REPO_NAME="predix-edge-ref-app"
 SCRIPT_NAME="quickstart-edge-ref-app-em.sh"
-GITHUB_RAW="https://raw.githubusercontent.com/PredixDev"
 APP_DIR="edge-ref-app-local"
 APP_NAME="Predix Edge Reference App - edge manager"
+SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
+QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --upload-application --upload-configuration --create-device -edge-app-name $REPO_NAME -asset-name Compressor-CMMS-Compressor-2018 $SCRIPT"
 TOOLS="Cloud Foundry CLI, Docker, Git, JQ, Node.js, Predix CLI, YQ"
 TOOLS_SWITCHES="--cf --docker --git --jq --nodejs --predixcli --yq"
 TIMESERIES_CHART_ONLY="true"
@@ -68,8 +69,8 @@ TIMESERIES_CHART_ONLY="true"
 local_read_args $@
 
 #variables after processing switches
-SCRIPT_LOC="$GITHUB_RAW/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
-VERSION_JSON_URL=https://raw.githubusercontent.com/PredixDev/$REPO_NAME/$BRANCH/version.json
+SCRIPT_LOC="$GITHUB_RAW/$GITHUB_ORG/$REPO_NAME/$BRANCH/scripts/$SCRIPT_NAME"
+VERSION_JSON_URL=$GITHUB_RAW/$GITHUB_ORG/$REPO_NAME/$BRANCH/version.json
 
 
 #if [[ "$SKIP_PREDIX_SERVICES" == "false" ]]; then
@@ -110,7 +111,7 @@ function init() {
   eval "$(curl -s -L $IZON_SH)"
   #curl -O $SCRIPT_LOC; chmod 755 $SCRIPT_NAME;
   getVersionFile
-  getLocalSetupFuncs $GITHUB_RAW
+  getLocalSetupFuncs $GITHUB_RAW $PREDIX_SCRIPTS_ORG
 }
 
 if [[ $PRINT_USAGE == 1 ]]; then

@@ -44,20 +44,19 @@ function local_read_args() {
 BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
-
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.4.0/izon2.sh"
-SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
-QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --create-configuration -edge-app-name $REPO_NAME --skip-predix-services $SCRIPT"
 VERSION_JSON="version.json"
-PREDIX_SCRIPTS_ORG="adotion"
-PREDIX_SCRIPTS=predix-scripts
-
-SCRIPT_NAME="quickstart-package.sh"
+PREDIX_SCRIPTS_ORG="PredixDev"
+PREDIX_SCRIPTS="predix-scripts"
 GITHUB_RAW="https://raw.githubusercontent.com"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.5.0/izon2.sh"
+
 GITHUB_ORG="adoption"
 REPO_NAME="predix-edge-ref-app"
 APP_DIR="edge-ref-app-local"
-APP_NAME="Predix Edge Reference App - edge manager"
+APP_NAME="Predix Edge Reference App - package"
+SCRIPT="-script edge-manager.sh  -script-readargs edge-manager-readargs.sh"
+QUICKSTART_ARGS="$QUICKSTART_ARGS --create-packages --create-configuration -edge-app-name $REPO_NAME --skip-predix-services $SCRIPT"
+SCRIPT_NAME="quickstart-package.sh"
 TOOLS="Docker, Git, JQ, YQ"
 TOOLS_SWITCHES="--cf --docker --git --jq --nodejs --predixcli --yq"
 TIMESERIES_CHART_ONLY="true"

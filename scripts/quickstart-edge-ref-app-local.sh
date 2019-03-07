@@ -53,21 +53,18 @@ function local_read_args() {
 BRANCH="master"
 PRINT_USAGE=0
 SKIP_SETUP=false
-
-IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/develop/izon2.sh"
-#ASSET_MODEL="-amrmd predix-ui-seed/server/sample-data/predix-asset/asset-model-metadata.json predix-ui-seed/server/sample-data/predix-asset/asset-model.json"
-#SCRIPT="-script build-basic-app.sh -script-readargs build-basic-app-readargs.sh"
-SCRIPT="-script edge-starter-deploy.sh -script-readargs edge-starter-deploy-readargs.sh"
 VERSION_JSON="version.json"
 PREDIX_SCRIPTS_ORG="PredixDev"
 PREDIX_SCRIPTS="predix-scripts"
 GITHUB_RAW="https://raw.githubusercontent.com"
+IZON_SH="https://raw.githubusercontent.com/PredixDev/izon/1.5.0/izon2.sh"
+
 GITHUB_ORG="PredixDev"
 REPO_NAME="predix-edge-ref-app"
 SCRIPT_NAME="quickstart-edge-ref-app-local.sh"
 APP_DIR="edge-ref-app-local"
 APP_NAME="Predix Edge Reference App - local"
-
+SCRIPT="-script edge-starter-deploy.sh -script-readargs edge-starter-deploy-readargs.sh"
 TOOLS="Cloud Foundry CLI, Docker, Git, jq, yq, Node.js, Predix CLI"
 TOOLS_SWITCHES="--cf --docker --git --jq --yq --nodejs --predixcli"
 
