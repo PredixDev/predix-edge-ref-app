@@ -5,7 +5,7 @@ LABEL maintainer="Predix Builder Relations"
 LABEL hub="https://hub.docker.com"
 LABEL org="https://hub.docker.com/u/predixedge"
 LABEL repo="predix-edge-ref-app"
-LABEL version="1.0.46"
+LABEL version="1.0.47"
 LABEL support="https://forum.predix.io"
 LABEL license="https://github.com/PredixDev/predix-docker-samples/blob/master/LICENSE.md"
 
