@@ -24,6 +24,11 @@ services:
     image: "dtr.predix.io/predix-edge/cloud-gateway:amd64-1.1.0"
     environment:
       config: "/config/config-cloud-gateway.json"
+      http_proxy: ${http_proxy}
+      https_proxy: ${https_proxy}
+      HTTP_PROXY: ${HTTP_PROXY}
+      HTTPS_PROXY: ${HTTP_PROXY}
+      no_proxy: ${no_proxy}
     volumes:
       - ./config:/config
       - ./data:/data
@@ -40,7 +45,7 @@ services:
     ports:
       - 1880:1880
   predix-edge-ref-app:
-    image: "predixedge/predix-edge-ref-app:1.0.47"
+    image: "predixedge/predix-edge-ref-app:1.0.50"
     volumes:
       - ./config:/config
       - ./data:/data
